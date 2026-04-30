@@ -367,5 +367,5 @@ void save_drugrecord_data(pdrug_record head) {
 	if (fclose(fp) == EOF) {
 		perror("Error: Failed to close the output file properly. Data might be corrupted");
 	}
-	fclose(fp);
+
 }

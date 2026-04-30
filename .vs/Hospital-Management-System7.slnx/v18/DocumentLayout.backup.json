@@ -1,0 +1,120 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\program\\Hospital-Management-System7\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\Druginformation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Druginformation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\Druginformation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Druginformation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\Patientinformation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Patientinformation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\Patientinformation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Patientinformation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\check.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:check.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\program\\Hospital-Management-System7\\check.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:check.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "check.h",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\check.h",
+              "RelativeDocumentMoniker": "check.h",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\check.h",
+              "RelativeToolTip": "check.h",
+              "ViewState": "AgIAAA4AAADAjoUsRIkfwBMAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-30T07:22:54.31Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Patientinformation.h",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\Patientinformation.h",
+              "RelativeDocumentMoniker": "Patientinformation.h",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\Patientinformation.h",
+              "RelativeToolTip": "Patientinformation.h",
+              "ViewState": "AgIAACsAAAAAkcgM7JQfwDMAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-30T07:28:51.855Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Druginformation.h",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\Druginformation.h",
+              "RelativeDocumentMoniker": "Druginformation.h",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\Druginformation.h",
+              "RelativeToolTip": "Druginformation.h",
+              "ViewState": "AgIAABEAAADAhixk6cAswCcAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-30T07:29:41.867Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Druginformation.c",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\Druginformation.c",
+              "RelativeDocumentMoniker": "Druginformation.c",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\Druginformation.c",
+              "RelativeToolTip": "Druginformation.c",
+              "ViewState": "AgIAADEBAACAl15BwBwvwHEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-04-30T07:25:02.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "check.c",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\check.c",
+              "RelativeDocumentMoniker": "check.c",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\check.c",
+              "RelativeToolTip": "check.c",
+              "ViewState": "AgIAALoAAAAApje9CeYqwNAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-04-30T07:22:56.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Patientinformation.c",
+              "DocumentMoniker": "F:\\program\\Hospital-Management-System7\\Patientinformation.c",
+              "RelativeDocumentMoniker": "Patientinformation.c",
+              "ToolTip": "F:\\program\\Hospital-Management-System7\\Patientinformation.c",
+              "RelativeToolTip": "Patientinformation.c",
+              "ViewState": "AgIAAA8AAAAAcLcdlK8vwPAAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-04-30T07:21:56.813Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
