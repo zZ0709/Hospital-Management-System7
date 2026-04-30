@@ -96,7 +96,7 @@ Time find_last(pregistration head) {
 		last = r->time;
 		r=r->next_record;
 		while (r) {
-			if (r->register_type == 0 && s_later(r->time, last))
+			if (r->register_type == 0 && is_later(r->time, last))
 				last = r->time;
 			r = r->next_record;
 		}
@@ -389,7 +389,7 @@ void save_patient_data(ppatient head) {
 			curr_patient->patient_phonenumber,
 			curr_patient->medical_history);
 
-		if (write_check != 8) {
+		if (write_check <0) {
 			printf("Error: Failed to write patient record (ID: %d) to file.\n", curr_patient->patient_number);
 			fclose(fp);
 			return;

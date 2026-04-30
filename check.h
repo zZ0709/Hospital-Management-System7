@@ -6,6 +6,12 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+typedef struct {
+	int hour;//24小时制
+	int minute;
+}Time;
+
+
 void clear_buffer(void);
 
 void clean_fgets_string(char, int);
@@ -28,5 +34,12 @@ void get_char_medicalrecord(char[10]);
 
 //6.检验并获取两位小数浮点数范围
 double get_double_range(const char* prompt, double min, double max);
+
+// 7.获取用户输入的时间
+Time input_time();
+
+// 8.如果 t1 晚于 t2 返回 1，否则返回 0
+int is_later(Time t1, Time t2);
+
 
 #endif#

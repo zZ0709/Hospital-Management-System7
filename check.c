@@ -41,7 +41,7 @@ void get_alpha_string(const char* prompt, char* str, int max_len) {
         // 检查是否全字母
         bool is_valid = true;
         for (int i = 0; i < len; i++) {
-            if (!isalpha(temp[i])) {
+            if (!isalpha(temp[i]) && temp[i] != ' ') {//允许空格
                 is_valid = false;
                 break;
             }
@@ -190,5 +190,29 @@ double get_double_range(const char* prompt, double min, double max) {
         else {
             printf("Error: Value %.2f is out of range!\n", current_val);
         }
+    }
+}
+
+// 获取用户输入的时间
+Time input_time() {
+    Time t;
+    printf("Please enter 24-hour clock time:\n");
+
+    t.hour = get_int_range("Hour", 0, 23);
+    t.minute = get_int_range("Minute", 0, 59);
+
+    return t;
+}
+
+// 如果 t1 晚于 t2 返回 1，否则返回 0
+int is_later(Time t1, Time t2) {
+    int total_mins1 = t1.hour * 60 + t1.minute;
+    int total_mins2 = t2.hour * 60 + t2.minute;
+
+    if (total_mins1 > total_mins2) {
+        return 1;
+    }
+    else {
+        return 0;
     }
 }

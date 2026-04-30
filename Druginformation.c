@@ -230,7 +230,7 @@ pdrug_record outbound_drug(pdrug head,pdrug_record rear,ppatient begin,Date toda
 				q = search_patientlist(begin, &q0);//查找出库药对应的患者
 				if (q != NULL)
 				{
-					out = get_int_range("Please enter the outbound quantity:\n", 0, 10000);
+					out = get_int_range("Please enter the outbound quantity:\n", 1, 10000);
 					if (out > p->drug_inventory) {
 						printf("Error: Insufficient inventory! Current inventory is %d.\n", p->drug_inventory);
 					}
@@ -276,7 +276,7 @@ void inbound_drug(pdrug head) {//传入药品链表头
 			}
 			else {
 
-				in = get_int_range("Please enter the inbound quantity:\n", 0, 10000);
+				in = get_int_range("Please enter the inbound quantity:\n", 1, 10000);
 				p->history[p->current_day_idx].inbound += in;
 				p->drug_inventory += in;
 			}

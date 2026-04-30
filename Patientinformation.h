@@ -16,7 +16,7 @@
 #define outfile      "F:\\newpatient.text"    //新存文件名
 #define REG_OUTFILE "F:\\newregistration.text" 
 
-typedef struct {//main中建立latesttime保存现场挂号的最晚时间模拟当前时间
+typedef struct {
 	int hour;//24小时制
 	int minute;
 }Time;
