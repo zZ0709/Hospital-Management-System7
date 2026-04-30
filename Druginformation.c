@@ -47,9 +47,9 @@
 						while (rear->next_record != NULL) rear = rear->next_record;
 
 						r = (pdrug_record)malloc(sizeof(tdrug_record));
-						// 读取7项：病号 药品编号 售价 数量 年 月 日
-						while ((readcheck = fscanf(fp, "%d %d %f %d %d %d %d",
-							&r->patient_number, &r->drug_number, &r->price, &r->drug_quantity,
+						// 读取7项：病号 就诊号 药品编号 售价 数量 年 月 日
+						while ((readcheck = fscanf(fp, "%d %d %d %f %d %d %d %d",
+							&r->patient_number,&r->medical_number, &r->drug_number, &r->price, &r->drug_quantity,
 							&r->prescribe_date.year, &r->prescribe_date.month, &r->prescribe_date.day)) == 7) {
 
 							rear->next_record = r;
@@ -214,9 +214,10 @@ void modify_druglist(pdrug head) {
 	} while (choice);
 }
 
-pdrug_record outbound_drug(pdrug head,pdrug_record rear,ppatient begin,Date today) {//传入药品链表头
+pdrug_record outbound_drug(pdrug head,pdrug_record rear,pregistration begin,Date today) {//传入药品链表头
 	int out, choice;//此次出库量,循环判断
 	pdrug p;
+	int key;//诊疗号
 	ppatient q, q0 = NULL;
 	do {
 		p = search_druglist(head);//查找对应的药
@@ -227,7 +228,8 @@ pdrug_record outbound_drug(pdrug head,pdrug_record rear,ppatient begin,Date toda
 				printf("This medicine is not available for sale\n");
 			}
 			else {
-				q = search_patientlist(begin, &q0);//查找出库药对应的患者
+				key = get_int_range("Please enter your visit number:\n", 1001, 6120);
+				q = search_registration(begin,key);//查找出库药对应的挂号记录
 				if (q != NULL)
 				{
 					out = get_int_range("Please enter the outbound quantity:\n", 1, 10000);
@@ -243,6 +245,7 @@ pdrug_record outbound_drug(pdrug head,pdrug_record rear,ppatient begin,Date toda
 							return rear;
 						}
 						r->patient_number = q->patient_number;
+						r->medical_number = q->medical_number;
 						r->drug_number = p->drug_number;
 						r->price = p->price;
 						r->drug_quantity = out;

@@ -82,7 +82,7 @@ void initial_today_patient(patientlist p,pregistration head , Date day) {//#####
 int check_department(pregistration head, int patientnumber, int department) {
 	pregistration p = head->next_record;
 	while (p) {
-		if (p->patient_number == patientnumber && (p->medical_number) / 100== department) {
+		if (p->patient_number == patientnumber && (p->medical_number) / 1000== department) {
 			return 1;
 		}
 	}
@@ -238,7 +238,7 @@ ppatient add_patientlist(patientlist list, ppatient head,ppatient rear, pregistr
 	pregistration record;
 	Time latesttime;//现场挂号的最晚时间
 	record = (pregistration)malloc(sizeof(tregistration));
-	record->medical_number = department*100+doctor->number;
+	record->medical_number = department*1000+end->medical_number%1000+1;
 	strcpy(record ->doctor_id ,doctor->id);
 	strcpy(record->medical_record, "0000000000");
 	record->patient_number = patientnumber;
@@ -365,6 +365,89 @@ void modify_patient(ppatient head,char id) {
 	} while (choice);
 }
 
+
+float registerfee(int record0) {
+	if (record0 == 1)
+		return 15.00;
+	else
+		return 30.00;
+}
+float hospitalizedfee(char record[9]) {
+	int days = record[2] * 100 + record[3] * 10 + record[4];//将住院天数转化为整型
+	return 200 * days;
+}
+float drugfee(pdrug_record p) {
+	return (p->drug_quantity) * (p->price);
+}
+
+float personal_drugfee(pdrug_record head, int key) {
+	float sum = 0;
+	pdrug_record p = head->next_record;
+	while (p) {
+		if (p->medical_number == key)
+		{
+			printf("NAME:%s           PRICE:%.2f\n", p->drug_name, drugfee(p));
+			sum += drugfee(p);
+		}
+		p = p->next_record;
+	}
+	return sum;
+}
+
+pregistration search_registration(pregistration head,int kay) {
+	pregistration p;
+	while (p) {
+		if (p->medical_number == key)
+			return p;
+		p = p->next_record;
+	}
+	printf("No corresponding record found.\n");
+	return NULL;
+}
+
+void print_hospitalization_bill(pregistration head, pdrug_record begin) {
+	ppatient p;
+	int i, record[9];
+	float fee[7] = { 0 }, sum = 0;//初始化
+	key = get_int_range("Please enter your visit number:\n", 1001, 6120);
+	p = search_registration(head,key);
+	if (p) {
+		for (i = 0;i < 9;i++) {
+			record[i] = p->medical_record[1] - '0';//字符串转为数组
+		}   fee[0] = registerfee(record[0]);
+		printf("NAME:register       PRICE:%.2f\n", fee[0]);
+		if (record[1] == 2)
+		{
+			fee[1] = hospitalizedfee(record);
+			printf("NAME:hospitalized   PRICE:%.2f\n", fee[1]);
+		}
+		if (record[5])
+		{
+			fee[2] = record[5] * 70;
+			printf("NAME:CT             PRICE:%.2f\n", fee[2]);
+		}
+		if (record[6])
+		{
+			fee[3] = record[6] * 10;
+			printf("NAME:draw blood     PRICE:%.2f\n", fee[3]);
+		}
+		if (record[7])
+		{
+			fee[4] = record[7] * 25;
+			printf("NAME:infusion       PRICE:%.2f\n", fee[4]);
+		}
+		if (record[8])
+		{
+			fee[5] = record[8] * 2000;
+			printf("NAME:surgery        PRICE:%.2f\n", fee[5]);
+		}
+		fee[6] = personal_drugfee(begin, key);
+		for (i = 0;i < 7;i++)
+			sum += fee[i];
+		printf("The total fee required for this consultation is:%f\n", sum);
+
+	}
+}
 
 
 

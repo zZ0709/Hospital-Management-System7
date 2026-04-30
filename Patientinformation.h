@@ -40,7 +40,7 @@ typedef struct patient {//患者信息结构体
 typedef tpatient* ppatient;//患者信息结构体指针
 
 typedef struct registration {//#####head中medical_number为0
-	int medical_number;//就诊号，第一位为科室，第二三位根据登记顺序自动递增
+	int medical_number;//就诊号，第一位为科室，第二三四位根据登记顺序自动递增
 	int patient_number;//病号
 	char doctor_id[10];//工号
 	int register_type;//挂号类型0为现场1为预约
@@ -70,6 +70,12 @@ ppatient add_patientlist(patientlist p, ppatient head, ppatient rear, pregistrat
 void search_patient_name(ppatient head);//医生输入患者姓名查询相关信息(ppatient空链表头)
 void modify_doctor(patientlist list);//医生录入或修改对应患者诊疗记录
 void modify_patient(ppatient head, char id);//仅患者修改个人基本信息(病人一般不知道病号故用身份证查询）(患者信息链表头，身份证号）
+float registerfee(int record0);//算挂号费
+float hospitalizedfee(char record[9]);//算住院费
+float drugfee(pdrug_record p) ；//算一种药开一次的总费用
+float personal_drugfee(pdrug_record head, int key);//算一个患者的全部药费
+pregistration search_registration(pregistration head, int kay);//通过就诊号返回对应挂号记录
+void print_hospitalization_bill(pregistration head, pdrug_record begin);//打印患者一次就诊的费用单
 void save_patient_data(ppatient);//保存新的患者信息
 void save_registration_data(pregistration head);//保存今日就诊信息
 #endif
