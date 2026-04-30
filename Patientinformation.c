@@ -203,7 +203,7 @@ ppatient add_patientlist(patientlist list, ppatient head,ppatient rear, pregistr
 	}
 	else {
 		p = (ppatient)malloc(sizeof(tpatient));
-
+		memset(p, 0, sizeof(tpatient));
 		p->patient_number = patientnumber = rear->patient_number + 1;
 
 		strcpy(p->patient_ID, patientid);
@@ -395,7 +395,7 @@ float personal_drugfee(pdrug_record head, int key) {
 }
 
 pregistration search_registration(pregistration head,int kay) {
-	pregistration p;
+	pregistration p=head->next_record;
 	while (p) {
 		if (p->medical_number == key)
 			return p;
@@ -406,14 +406,15 @@ pregistration search_registration(pregistration head,int kay) {
 }
 
 void print_hospitalization_bill(pregistration head, pdrug_record begin) {
-	ppatient p;
+	pregistration p;
 	int i, record[9];
+	int key;//诊疗号
 	float fee[7] = { 0 }, sum = 0;//初始化
 	key = get_int_range("Please enter your visit number:\n", 1001, 6120);
 	p = search_registration(head,key);
 	if (p) {
 		for (i = 0;i < 9;i++) {
-			record[i] = p->medical_record[1] - '0';//字符串转为数组
+			record[i] = p->medical_record[i] - '0';//字符串转为数组
 		}   fee[0] = registerfee(record[0]);
 		printf("NAME:register       PRICE:%.2f\n", fee[0]);
 		if (record[1] == 2)
@@ -466,13 +467,13 @@ void save_patient_data(ppatient head) {
 	ppatient curr_patient = head->next_patient;
 	while (curr_patient != NULL) {
 		write_check = fprintf(fp, "%d %s %s %d %d %d %d %s  %s \n",
-			curr_patient->patient_number, curr_patient->patient_ID,curr_patient->patient_name,
+			curr_patient->patient_number, curr_patient->patient_ID, curr_patient->patient_name,
 			curr_patient->patient_gender, curr_patient->patient_birthday.year,
 			curr_patient->patient_birthday.month, curr_patient->patient_birthday.day,
 			curr_patient->patient_phonenumber,
 			curr_patient->medical_history);
 
-		if (write_check <0) {
+		if (write_check < 0) {
 			printf("Error: Failed to write patient record (ID: %d) to file.\n", curr_patient->patient_number);
 			fclose(fp);
 			return;
@@ -493,7 +494,7 @@ void save_patient_data(ppatient head) {
 	if (fclose(fp) == EOF) {
 		perror("Error: Failed to close the output file properly. Data might be corrupted");
 	}
-	
+}
 	void save_registration_data(pregistration head){
 		FILE* fp = fopen(REG_OUTFILE, "w");
 		if (fp == NULL) { // 检查文件打开失败

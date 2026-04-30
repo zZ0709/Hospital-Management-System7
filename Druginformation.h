@@ -39,6 +39,7 @@ typedef struct drug_record { // 每一笔具体的开药记录
 	int patient_number;      // 开药病人病号
 	int medical_number;//该病人当日的诊疗号       **********************
 	int  drug_number;//药品编号
+	char drug_name[maxdrugname];//药品名称
 	float price;             // 药品单价
 	int drug_quantity;       // 开药数量
 	Date prescribe_date;     // 开药的具体日期 

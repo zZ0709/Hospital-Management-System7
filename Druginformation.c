@@ -12,7 +12,7 @@
 						while (rear->next_drug != NULL) rear = rear->next_drug;
 
 						p = (pdrug)malloc(sizeof(tdrug));
-						// 假设新基础文件只包含6项：名称  状态 副作用 编号 进价 售价 总库存
+						// 假设新基础文件只包含6项：名称 状态 副作用 编号 进价 售价 总库存
 						while ((readcheck = fscanf(fp, "%s %d %s %d %f %f %d",
 							p->drug_name, &p->is_active, p->drug_sideeffect, &p->drug_number, &p->bid, &p->price,
 							&p->drug_inventory)) == 7) {
@@ -48,9 +48,16 @@
 
 						r = (pdrug_record)malloc(sizeof(tdrug_record));
 						// 读取7项：病号 就诊号 药品编号 售价 数量 年 月 日
-						while ((readcheck = fscanf(fp, "%d %d %d %f %d %d %d %d",
-							&r->patient_number,&r->medical_number, &r->drug_number, &r->price, &r->drug_quantity,
-							&r->prescribe_date.year, &r->prescribe_date.month, &r->prescribe_date.day)) == 7) {
+						while ((readcheck = fscanf(fp, "%d %d %d %s %f %d %d %d %d",
+							&r->patient_number,
+							&r->medical_number,
+							&r->drug_number,
+							r->drug_name, 
+							&r->price,
+							&r->drug_quantity,
+							&r->prescribe_date.year,
+							&r->prescribe_date.month,
+							&r->prescribe_date.day)) == 9) {
 
 							rear->next_record = r;
 							r->next_record = NULL;
@@ -87,6 +94,7 @@ pdrug add_druglist(pdrug rear,Date today) {
 	do {
 		pdrug p = (pdrug)malloc(sizeof(tdrug));
 		if (p == NULL) {
+			memset(p, 0, sizeof(tdrug));
 			printf("Error: Memory allocation failed\n");
 			return rear;
 		}
@@ -241,12 +249,14 @@ pdrug_record outbound_drug(pdrug head,pdrug_record rear,pregistration begin,Date
 						p->drug_inventory -= out;
 						pdrug_record r = (pdrug_record)malloc(sizeof(tdrug_record));
 						if (r == NULL) {
+							memset(r, 0, sizeof(tdrug_record));
 							printf("Error: Memory allocation failed\n");
 							return rear;
 						}
 						r->patient_number = q->patient_number;
 						r->medical_number = q->medical_number;
 						r->drug_number = p->drug_number;
+						strcpy(r->drug_name, p->drug_name);
 						r->price = p->price;
 						r->drug_quantity = out;
 						r->next_record = NULL;
@@ -340,15 +350,16 @@ void save_drugrecord_data(pdrug_record head) {
 	int write_check;
 	pdrug_record curr_record = head->next_record;
 	while (curr_record != NULL) {
-		write_check = fprintf(fp, "%d %d %.2f %d %d %d %d\n",
+		write_check = fprintf(fp, "%d %d %d %s %.2f %d %d %d %d\n",
 			curr_record->patient_number,
+			curr_record->medical_number,
 			curr_record->drug_number,
+			curr_record->drug_name, 
 			curr_record->price,
 			curr_record->drug_quantity,
 			curr_record->prescribe_date.year,
 			curr_record->prescribe_date.month,
 			curr_record->prescribe_date.day);
-
 		if (write_check < 0) {
 			printf("Error: Failed to write drug record to file.\n");
 			fclose(fp);
