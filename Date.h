@@ -1,13 +1,10 @@
 #pragma once
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "account.h"
-#include "ward.h"
-#include "Struct.h"
-#include "cure.h"
-extern Date New_Date;
-
-void Init_Date(Date* date, WARD wardlist[3], tdrug* druglist, DoctorNode* doclist,NurseNode *nurlist);
-void Update_Date(Date* date, WARD wardlist[3], tdrug* druglist, DoctorNode* doclist, NurseNode* nurlist);
-void Date_Check(Date* Sum_Date, Date date);
+#include<stdio.h>
+#include<string.h>
+typedef struct {
+	int year;//年
+	int month;//月
+	int day;//日
+	int hour;//时
+	int minute;//分
+}Date1;
