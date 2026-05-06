@@ -1,20 +1,26 @@
 #include "druginformation.h"
-
+pdrug druglisthead = NULL;
+pdrug druglistrear=NULL;
+pdrug_record drugrecordhead = NULL;
+pdrug_record drugrecordrear = NULL;
 void creat_druglist()
 {
 	int readcheck;
 	pdrug p;
-	druglistrear = druglisthead;
+	
 	FILE *fp = fopen(GrugInfile, "r");
 	if (fp == NULL)
 	{
 		perror("Failed to open incorrect file");
-		return druglisthead;
+		return ;
 	}
 	while (druglistrear->next_drug != NULL)
 		druglistrear = druglistrear->next_drug;
 
 	p = (pdrug)malloc(sizeof(tdrug));
+	druglisthead=(pdrug)malloc(sizeof(tdrug));
+	druglistrear->next_drug=NULL;
+	druglistrear = druglisthead;
 	// 假设新基础文件只包含6项：名称  状态 副作用 编号 进价 售价 总库存
 	while ((readcheck = fscanf(fp, "%s %d %s %d %f %f %d",
 							   p->drug_name, 
@@ -49,21 +55,28 @@ void creat_drugrecordlist()
 {
 	int readcheck;
 	pdrug_record r;
-	drugrecordrear = drugrecordhead;
 	FILE *fp = fopen(RecordInfile, "r");
 	if (fp == NULL)
 	{
 		perror("Failed to open record file");
-		return drugrecordhead;
+		return ;
 	}
 	while (drugrecordrear->next_record != NULL)
 		drugrecordrear = drugrecordrear->next_record;
 
 	r = (pdrug_record)malloc(sizeof(tdrug_record));
-	// 读取7项：病号 药品编号 售价 数量 年 月 日
-	while ((readcheck = fscanf(fp, "%d %d %f %d %d %d %d",
-							   &r->patient_number, &r->drug_number, &r->price, &r->drug_quantity,
-							   &r->prescribe_date.year, &r->prescribe_date.month, &r->prescribe_date.day)) == 7)
+	drugrecordrear = drugrecordhead = r;
+	// 读取9项：病号 医疗编号 药品编号 药品名称 售价 数量 年 月 日
+	while ((readcheck = fscanf(fp, "%d %d %d %s %f %d %d %d %d",
+							&r->patient_number,
+							&r->medical_number,
+							&r->drug_number,
+							r->drug_name, 
+							&r->price,
+							&r->drug_quantity,
+							&r->prescribe_date.year,
+							&r->prescribe_date.month,
+							&r->prescribe_date.day)) == 9)
 	{
 
 		drugrecordrear->next_record = r;
@@ -102,7 +115,7 @@ void add_druglist(Date today) {
 		pdrug p = (pdrug)malloc(sizeof(tdrug));
 		if (p == NULL) {
 			printf("Error: Memory allocation failed\n");
-			
+			return;
 		}
 
 		first = get_int_range("Please enter the department number associated with the drug:\n0 None 1 Internal Medicine 2 Surgery 3 Emergency Department 4 Obstetrics and Gynecology 5 Pediatrics 6 General Clinic\n", 0, 6);
@@ -132,29 +145,58 @@ void add_druglist(Date today) {
 }
 
 void search_drug_name() {
-	pdrug p = druglisthead->next_drug;
-	char keyname[maxdrugname];
-	int found = 0; // 加一个标记，如果遍历完没找到可以给个提示
-	int choice;
-	do {
-		get_alpha_string("Please enter the drug name for inquiry:\n", keyname, maxdrugname);
+    char keyname[maxdrugname];
+    int choice;
+    
+    do {
+        pdrug p = druglisthead->next_drug;
+        int found = 0; 
 
-		while (p != NULL) {
-			// 加上了安全的大括号，防悬挂缩进
-			if (strcmp(keyname, p->drug_name) == 0) {
-				printf("Name:%s Number:%3d Status:%d Side Effects: %s Bid:%.2f Price:%.2f Inventory:%d\n",
-					p->drug_name, p->drug_number, p->is_active,p->drug_sideeffect,p->bid, p->price, p->drug_inventory);
-					found = 1; // 标记已找到至少一个
-			}
-			p = p->next_drug; // 继续往后找，应对同名的药品
-		}
+        get_alpha_string("Please enter the drug name for inquiry:\n", keyname, maxdrugname);
 
-		// 如果整条链表找完都没碰到名字匹配的
-		if (!found) {
-			printf("Notice: No drug found with the name '%s'.\n", keyname);
-		}
-		choice = get_int_range("Do you want to continue deleting: 0 No 1 Yes\n", 0, 1);
-	} while (choice);
+        while (p != NULL) {
+            if (strcmp(keyname, p->drug_name) == 0) {
+                printf("Name:%s Number:%03d Status:%d Side Effects: %s Bid:%.2f Price:%.2f Inventory:%d\n",
+                    p->drug_name, p->drug_number, p->is_active, p->drug_sideeffect, p->bid, p->price, p->drug_inventory);
+                found = 1; 
+            }
+            p = p->next_drug; 
+        }
+
+        if (!found) {
+            printf("Notice: No drug found with the name '%s'.\n", keyname);
+        }
+        
+        // 【优化点3】将提示语中的 deleting 修正为 searching，避免用户产生误解
+        choice = get_int_range("Do you want to continue searching: 0 No 1 Yes\n", 0, 1);
+        
+    } while (choice);
+}
+
+void search_drug_department() {
+    int choice;
+    do {
+        pdrug p = druglisthead->next_drug;
+        int found = 0; 
+        
+       
+        int key_dept = get_int_range("Please enter the department number (0-9) for inquiry:\n", 0, 6);
+
+        while (p != NULL) {
+             if ((p->drug_number / 100) == key_dept) {
+                printf("Name:%s Number:%03d Status:%d Side Effects: %s Bid:%.2f Price:%.2f Inventory:%d\n",
+                    p->drug_name, p->drug_number, p->is_active, p->drug_sideeffect, p->bid, p->price, p->drug_inventory);
+                found = 1; // 标记已找到至少一个
+            }
+            p = p->next_drug; // 继续往后找
+        }
+
+        // 如果整条链表找完都没碰到匹配的
+        if (!found) {
+            printf("Notice: No drug found for department number '%d'.\n", key_dept);
+        }
+        choice = get_int_range("Do you want to continue searching: 0 No 1 Yes\n", 0, 1);
+    } while (choice);
 }
 
 pdrug search_druglist() {//检索药品信息函数，利用唯一的编号查找
@@ -162,13 +204,13 @@ pdrug search_druglist() {//检索药品信息函数，利用唯一的编号查�
 	int keydrugnumber;//被检索药品编号
 	p = druglisthead->next_drug;
 
-	keydrugnumber = get_int_range("Please enter the drug number to be queried:\n", 1, 999); // 接收返回值
+	keydrugnumber = get_int_range("Please enter the drug number to be queried:\n", 1, 699); // 接收返回值
 
 	while (p != NULL && p->drug_number != keydrugnumber) {
 		p = p->next_drug;
 	}
 	if (p) {
-		printf("Retrieved:\nNumber:%3d Name:%s (Side Effects: %s) Bid:%.2f Price:%.2f Inventory:%d\n",
+		printf("Retrieved: Number:%03d Name:%s (Side Effects: %s) Bid:%.2f Price:%.2f Inventory:%d\n",
 			p->drug_number, p->drug_name, p->drug_sideeffect,
 			p->bid, p->price, p->drug_inventory);
 		return p;
@@ -179,7 +221,8 @@ pdrug search_druglist() {//检索药品信息函数，利用唯一的编号查�
 	}
 }
 
-void delete_druglist() {	int choice;//用于判断操作结束
+void delete_druglist() {	
+	int choice;//用于判断操作结束
 	pdrug p;
 	do {
 		p = search_druglist();
@@ -229,11 +272,11 @@ void modify_druglist() {
 }
 
 void outbound_drug(Date today) {//传入药品链表头
-	int out, choice;//此次出库量,循环判断
+	int out, choice, key;//此次出库量,循环判断,诊疗号
 	pdrug p;
-	ppatient q, q0 = NULL;
+	pregistration q;
 	do {
-		p = search_druglist();//查找对应的药
+		p = search_drugt();//查找对应的药
 		if(p)
 		{
 			if (p->is_active == 0)
@@ -241,7 +284,8 @@ void outbound_drug(Date today) {//传入药品链表头
 				printf("This medicine is not available for sale\n");
 			}
 			else {
-				q = search_patientlist();//查找出库药对应的患者
+				key = get_int_range("Please enter your visit number:\n", 1001, 6120);
+				q = search_registration(key);//查找出库药对应的患者挂号信息
 				if (q != NULL)
 				{
 					out = get_int_range("Please enter the outbound quantity:\n", 0, 10000);
@@ -258,12 +302,14 @@ void outbound_drug(Date today) {//传入药品链表头
 						}
 						r->patient_number = q->patient_number;
 						r->drug_number = p->drug_number;
+						r->medical_number = q->medical_number;
+						strcpy(r->drug_name, p->drug_name);
 						r->price = p->price;
 						r->drug_quantity = out;
 						r->next_record = NULL;
 						r->prescribe_date = today;
-						druglistrear->next_record = r;
-						druglistrear = r;
+						drugrecordrear->next_record = r;
+						drugrecordrear = r;
 						printf("Outbound successful. Current inventory: %d\n", p->drug_inventory);
 					}
 				}
@@ -311,7 +357,7 @@ void save_drug_data() {
 	int write_check;
 	pdrug curr_drug = druglisthead->next_drug;
 	while (curr_drug != NULL) {
-		write_check = fprintf(fp, "%s %d %s %d %.2f %.2f %d \n",
+		write_check = fprintf(fp, "%s %d %s %03d %.2f %.2f %d \n",
 			curr_drug->drug_name,curr_drug->is_active,curr_drug->drug_sideeffect,
 			curr_drug->drug_number, curr_drug->bid, curr_drug->price,
 			curr_drug->drug_inventory);
@@ -351,9 +397,11 @@ void save_drugrecord_data() {
 	int write_check;
 	pdrug_record curr_record = drugrecordhead->next_record;
 	while (curr_record != NULL) {
-		write_check = fprintf(fp, "%d %d %.2f %d %d %d %d\n",
+		write_check = fprintf(fp, "%d %d %d %s %.2f %d %d %d %d\n",
 			curr_record->patient_number,
+			curr_record->medical_number,
 			curr_record->drug_number,
+			curr_record->drug_name, 
 			curr_record->price,
 			curr_record->drug_quantity,
 			curr_record->prescribe_date.year,
@@ -378,5 +426,5 @@ void save_drugrecord_data() {
 	if (fclose(fp) == EOF) {
 		perror("Error: Failed to close the output file properly. Data might be corrupted");
 	}
-	fclose(fp);
+	
 }

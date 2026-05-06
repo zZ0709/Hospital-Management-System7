@@ -5,11 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-
-typedef struct {
-	int hour;//24小时制
-	int minute;
-}Time;
+#include "Struct.h"
 
 
 void clear_buffer(void);
