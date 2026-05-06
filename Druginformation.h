@@ -13,7 +13,8 @@
 #define RecordInfile    "F:\\initialrecord.text"
 #define RecordOutfile    "F:\\newrecord.text"
 
-
+extern pdrug drug_head;
+extern pdrug_record record_head;
 
 typedef struct {
 	Date date;          // 记录日期
@@ -37,9 +38,7 @@ typedef tdrug* pdrug;
 
 typedef struct drug_record { // 每一笔具体的开药记录
 	int patient_number;      // 开药病人病号
-	int medical_number;//该病人当日的诊疗号       **********************
 	int  drug_number;//药品编号
-	char drug_name[maxdrugname];//药品名称
 	float price;             // 药品单价
 	int drug_quantity;       // 开药数量
 	Date prescribe_date;     // 开药的具体日期 
@@ -47,16 +46,17 @@ typedef struct drug_record { // 每一笔具体的开药记录
 } tdrug_record;
 typedef tdrug_record* pdrug_record;
 
-pdrug creat_druglist(pdrug);//创建药品初始表（传入pdrug空链表头）（return链表尾）(仅仅创建药品信息不涉及出入库）
-pdrug_record creat_drugrecordlist(pdrug_record head);//同上传入初始开药记录
-void initial_today_drug(pdrug,Date);//初始化今日药品出入库（传入pdrug空链表头，今日日期）（规定每天24:00进行初始化）  ####统计资金需要当日统计
-pdrug add_druglist(pdrug,Date);//添加药品信息（传入pdrug链表尾,今日日期）（return 链表尾）
-void search_drug_name(pdrug);//通过药品名称查询药品基本信息（传入pdrug链表尾）
-pdrug search_druglist(pdrug, pdrug*);//搜索药品信息（传入pdrug空链表头，前置节点地址）（return 查询药品节点指针）
-void delete_druglist(pdrug);//删除药品信息（传入pdrug空链表头）
-void modify_druglist(pdrug);//修改药品信息（传入pdrug空链表头）
-pdrug_record outbound_drug(pdrug, pdrug_record, ppatient,Date);//药品出库附带开药记录（传入pdrug空链表头，pdrug_record链表尾，ppatient空链表头）（return 新pdrug_record链表尾）
-void inbound_drug(pdrug);//药品入库操作（传入pdrug空链表头）
+void creat_druglist();//创建药品初始表(仅仅创建药品信息不涉及出入库）  ####自动
+void creat_drugrecordlist();//同上传入初始开药记录                                       ####自动
+void initial_today_drug(Date);//初始化今日药品出入库（今日日期）（规定每天24:00进行初始化）  ###自动
+void add_druglist(Date);//添加药品信息（今日日期）（return 链表尾） 
+void search_drug_name();//通过药品名称查询药品基本信息
+pdrug search_druglist();//搜索药品信息（return 查询药品节点指针）
+void delete_druglist();//删除药品信息
+void modify_druglist();//修改药品信息
+void outbound_drug(Date);//药品出库附带开药记录
+void inbound_drug();//药品入库操作
 
-void save_drug_data(pdrug);//保存当日药品信息
+void save_drug_data();//保存当日药品信息
 #endif
+#pragma once

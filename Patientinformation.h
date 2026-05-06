@@ -16,7 +16,7 @@
 #define outfile      "F:\\newpatient.text"    //新存文件名
 #define REG_OUTFILE "F:\\newregistration.text" 
 
-typedef struct {
+typedef struct {//main中建立latesttime保存现场挂号的最晚时间模拟当前时间
 	int hour;//24小时制
 	int minute;
 }Time;
@@ -40,7 +40,7 @@ typedef struct patient {//患者信息结构体
 typedef tpatient* ppatient;//患者信息结构体指针
 
 typedef struct registration {//#####head中medical_number为0
-	int medical_number;//就诊号，第一位为科室，第二三四位根据登记顺序自动递增
+	int medical_number;//就诊号，第一位为科室，第二三位根据登记顺序自动递增
 	int patient_number;//病号
 	char doctor_id[10];//工号
 	int register_type;//挂号类型0为现场1为预约
@@ -60,25 +60,27 @@ typedef struct {//当日患者人数记录
 	}patientlist;
 
 
-ppatient creat_patientlist(ppatient head);//读取文件创建病患初始信息链表(ppatient空链表头)（return patient链表尾）(默认是历史记录，没有当日记录）
-void initial_today_patient(patientlist p, pregistration head, Date day);//0:00时初始化当天patientlist，释放昨日看诊链表(ppatientlist结构体,总挂号记录链表哨兵节点，今日时间）
+void creat_patientlist();//读取文件创建病患初始信息链表(默认是历史记录，没有当日记录）       #######自动
+void initial_today_patient(patientlist p, Date day);//0:00时初始化当天patientlist，释放昨日看诊链表(ppatientlist结构体，今日时间）   #######自动
 int check_department(pregistration head, int patientnumber, int department);//检验该患者是否已在该科室挂号（总挂号记录链表哨兵节点，病号，科室号）（已挂号return1 未挂号return0）
 Time find_last(pregistration head);//找最晚现场挂号时间（总挂号记录链表哨兵节点）
-pregistration insert_registration_by_time(DoctorNode* q, pregistration p, pregistration rear); // 按时间先后顺序将新节点插入到对应医生下的链表中,并从表尾加入到总挂号记录中(对应医生指针，挂号记录指针，总挂号记录尾节点，总挂号记录链表哨兵节点）（return新尾节点）
-ppatient search_patientlist(ppatient head,char id[19]) {//利用身份证查找病患信息并打印函数 （患者信息链表哨兵节点，身份证号）（return该患者节点）
-ppatient add_patientlist(patientlist p, ppatient head, ppatient rear, pregistration begin,pregistration  end);//挂号函数，增加患者信息函数(patientlist结构体，patient链表头+尾，registration链表头+尾)(return 新患者信息链表尾）
-void search_patient_name(ppatient head);//医生输入患者姓名查询相关信息(ppatient空链表头)
+void insert_registration_by_time(DoctorNode* q); // 按时间先后顺序将新节点插入到对应医生下的链表中,并从表尾加入到总挂号记录中(对应医生指针）
+ppatient search_patientlist(char id[19]); //利用身份证查找病患信息并打印函数 （身份证号）（return该患者节点）
+pregistration search_registration(int kay) ;//利用诊疗号查找挂号记录并打印函数（诊疗号）（return该挂号记录节点）
+void add_patientlist(patientlist p);//挂号函数，增加患者信息函数(patientlist结构体)
+void search_patient_name();//医生输入患者姓名查询相关信息
 void modify_doctor(patientlist list);//医生录入或修改对应患者诊疗记录
-void modify_patient(ppatient head, char id);//仅患者修改个人基本信息(病人一般不知道病号故用身份证查询）(患者信息链表头，身份证号）
-float registerfee(int record0);//算挂号费
-float hospitalizedfee(char record[9]);//算住院费
-float drugfee(pdrug_record p) ；//算一种药开一次的总费用
-float personal_drugfee(pdrug_record head, int key);//算一个患者的全部药费
-pregistration search_registration(pregistration head, int kay);//通过就诊号返回对应挂号记录
-void print_hospitalization_bill(pregistration head, pdrug_record begin);//打印患者一次就诊的费用单
-void save_patient_data(ppatient);//保存新的患者信息
-void save_registration_data(pregistration head);//保存今日就诊信息
+void modify_patient( char id);//仅患者修改个人基本信息(病人一般不知道病号故用身份证查询）(身份证号）
+float registerfee(int record0) ;//根据诊疗记录第一位计算挂号费（门诊15元，急诊30元）
+float hospitalizedfee(char record[9]) ;//根据诊疗记录计算住院费（住院天数*200元）
+float drugfee(pdrug_record p) 
+float personal_drugfee(int key);//根据诊疗号计算个人药费（遍历药品记录链表，找到对应诊疗号的记录，计算总药费）
+print_hospitalization_bill();//打印住院账单（根据诊疗记录计算住院费用，住院天数，押金余额等）（诊疗号）
+void save_patient_data();//保存新的患者信息            #######自动
+void save_registration_data();//保存今日就诊信息         #######自动
 #endif
 
 
-#pragma once
+#pragma once 
+
+
