@@ -50,7 +50,7 @@ typedef  struct ward {//病房结构体
 	int wardtype;//病房类型（1.普通病房，2.急诊病房，3.ICU病房）
 	int totalbeds;//总床数
 	int freebeds;//空闲床数
-	int nursenum;//护士总数
+	int nursenum;//护士总数		(每个病房最多3护士)
 	int department;//关联科室1.intetnal 2.sugery 3.child 4.gune 5.emergency 6.full
 	NurseIDNode* nurselist; // 值班护士编号链表（新建病房时为NULL）
 	bed* bedlist;//床位链表头节点

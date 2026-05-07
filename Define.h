@@ -35,3 +35,4 @@
 #define infile       "F:\\initialpatient.text"//原始文件名
 #define outfile      "F:\\newpatient.text"    //新存文件名
 #define REG_OUTFILE "F:\\newregistration.text" 
+#define MAX_WARD_NURSE 3 //每个病房最多护士数量
