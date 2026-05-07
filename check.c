@@ -143,30 +143,39 @@ int get_int_multiple_100(const char* prompt) {
     }
 }
 
-void get_char_medicalrecord(char crecord[10]) {
+void get_char_medicalrecord(char record[10], const char initialrecord[10]) {
     int days,i=0;//保存住院天数
-    int record[9];//先以数组形式保存
-    record[0]=get_int_range("Please enter the registration form: 1. Outpatient 2. Emergency\n",1,2);
-    record[1] = get_int_range("Please enter whether you are hospitalized: 1. No 2. Yes\n", 1, 2);
-    if (record[1] == 1) {
-        record[2] = record[3] = record[4] = 0;
+    int intrecord[9];//先以数组形式保存
+    intrecord[0]=get_int_range("Please enter the registration form: 1. Outpatient 2. Emergency\n",1,2);
+    intrecord[1] = get_int_range("Please enter whether you are hospitalized: 1. No 2. Yes\n", 1, 2);
+    if (intrecord[1] == 1) {
+        intrecord[2] = intrecord[3] = intrecord[4] = 0;
     }
     else {
+        	if (intrecord[1] == '2' && (initialrecord[1] == '0' || initialrecord[1] == '1'))//医生首次录入，或者原本不住院现住院时住院人数加一
+		{
+            if(Searchwardbylxfreebeds(wardlist)){//#####################?
         days = get_int_range("Please enter the length of hospital stay:\n", 1, 365);
-        record[4] = days % 10;
+        intrecord[4] = days % 10;
         days /= 10;
-        record[3] = days % 10;
+        intrecord[3] = days % 10;
         days /= 10;
         record[2] = days % 10;
+    }else{
+        printf("Sorry, no available beds in the hospital. Please choose outpatient treatment.\n");
+        intrecord[1] = 1;
+        intrecord[2] = intrecord[3] = intrecord[4] = 0;
     }
-    record[5] = get_int_range("Please enter the number of CT scans:\n", 0, 9);
-    record[6] = get_int_range("Please enter the number of blood draws :\n", 0, 9);
-    record[7] = get_int_range("Please enter the number of influsion times:\n", 0, 9);
-    record[8] = get_int_range("Please enter the number of surgeries performed:\n", 0, 9);
+    }
+}
+    intrecord[5] = get_int_range("Please enter the number of CT scans:\n", 0, 9);
+    intrecord[6] = get_int_range("Please enter the number of blood draws :\n", 0, 9);
+    intrecord[7] = get_int_range("Please enter the number of influsion times:\n", 0, 9);
+    intrecord[8] = get_int_range("Please enter the number of surgeries performed:\n", 0, 9);
     for (i = 0;i < 9;i++)
-        crecord[i] = record[i] +'0';
-    crecord[9] = '\0';
-    printf("The final diagnosis and treatment record number is:\n%s",crecord);
+    record[i] = record[i] +'0';
+    record[9] = '\0';
+    printf("The final diagnosis and treatment record number is:\n%s",record);
     printf("\n");
 }
 
@@ -216,3 +225,7 @@ int is_later(Time t1, Time t2) {
         return 0;
     }
 }
+
+#include <stdio.h>
+
+// 清空输入缓冲区的辅助函数

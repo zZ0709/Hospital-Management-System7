@@ -8,7 +8,7 @@
 #include "Struct.h"
 
 
-void clear_buffer(void);
+void clear_buffer();
 
 void clean_fgets_string(char, int);
 

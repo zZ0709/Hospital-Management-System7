@@ -150,10 +150,9 @@ typedef struct registration {//#####head中medical_number为0
 	struct registration* next_doctor_record; // 用于医生个人队列（按时间排序）
 }tregistration;
 typedef struct registration* pregistration;
-typedef tregistration ScheduleNode;//###别名
+typedef tregistration ScheduleNode;
 typedef struct {//当日患者人数记录    
 	Date today;//当日日期
 	int outpatient_number;//门诊人数：规定每晚24:00重置,最多120
 	int emergencypatient_number;//急诊人数：规定每晚24:00重置，最多80（为简化，默认没有危重症和急症）
-	int hospitalizedpatient_number;//住院人数：#####24:00后根据病房信息重置（有些患者只住一天），规定一个患者可以同时占门/急诊和住院名额
 	}patientlist;

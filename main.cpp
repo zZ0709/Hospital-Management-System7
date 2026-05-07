@@ -7,6 +7,8 @@
 #include "account.h"
 #include "data analyze.h"
 #include "accountUI.h"
+#include "druginformation.h"
+#include "patientinformation.h"
 
 int main()
 {
