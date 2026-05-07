@@ -26,3 +26,12 @@
 //长度
 #define LENTH_ID 4	//工号长度
 #define MENU_BUF_SIZE 10	//菜单输入缓存
+
+
+#define maxdrugname    100//药品名字最大长度
+#define maxeffect       100//副作用长度
+#define maxname       25//姓名字符串长度     
+#define maxhistory    100//病史字符串长度    
+#define infile       "F:\\initialpatient.text"//原始文件名
+#define outfile      "F:\\newpatient.text"    //新存文件名
+#define REG_OUTFILE "F:\\newregistration.text" 

@@ -1,18 +1,11 @@
-pdrug druglisthead = (pdrug)malloc(sizeof(tdrug));
-pdrug druglistrear;
-pdrug_record drugrecordhead = (pdrug_record)malloc(sizeof(tdrug_record));
-pdrug_record drugrecordrear;
-ppatuent patienthead = (ppatient)malloc(sizeof(tpatient));
-ppatuent patientrear;
-pregistration registrationhead = (pregistration)malloc(sizeof(tregistration));
-pregistration registrationresr;
-patientlist todaylist;
+
+ 
 Patient_UI() {
 	char patientid[19];
-	get_alpha_string("Please enter ID number number:\n", patientid, 19);
-	search_patientlist(patientid);
+	search_patientlist();
 	add_patientlist();//
 	modify_patient(patientid);
+    print_hospitalization_bill();
 }
 
 Doctor_UI() {
