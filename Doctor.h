@@ -10,7 +10,7 @@ ScheduleNode_Doctor* creat_schedule_node_Doc();
 DoctorNode* create_doctor_node();
 
 // 给医生添加一天排班（尾插入队列）
-void add_schedule_Doc(DoctorNode* doctor, DateNode date, int day_or_days);
+void add_schedule_Doc(DoctorNode* doctor, Date date, int day_or_days);
 
 //  增加医生
 void add_doctor();

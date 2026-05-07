@@ -11,7 +11,7 @@ void Ward_Analyze(WARD wardlist[3])//分析病房使用情况来规划病房
 {
 	double Ave_Use;//记录病房平均使用情况
 	int Sum_Use;//记录总使用情况
-	int Sum_Time=(wardlist[1].wardhead->bedlist->que.rear- wardlist[1].wardhead->bedlist->que.front+30)%30;//记录时间跨度
+	int Sum_Time=(wardlist[1].wardhead->bedlist->dayQueue.rear- wardlist[1].wardhead->bedlist->dayQueue.front+30)%30;//记录时间跨度
 	bed* bedp;
 	for (int i = 0;i < 3;i++)//遍历每个病房，每个病床，得到最新时间
 	{
@@ -25,12 +25,12 @@ void Ward_Analyze(WARD wardlist[3])//分析病房使用情况来规划病房
 			{
 				for (int i = 0;i < 31;i++)
 				{
-					if (p->bedlist->que.is_Use[i].is_use)
+					if (p->bedlist->dayQueue.is_Use[i].is_use)
 					{
 						Sum_Use++;
 					}
 				}
-				Sum_Use -= p->bedlist->que.is_Use[p->bedlist->que.rear].is_use;
+				Sum_Use -= p->bedlist->dayQueue.is_Use[p->bedlist->dayQueue.rear].is_use;
 				q = q->next;
 			}
 			Ave_Use = (double)Sum_Use / (Sum_Time * wardlist[i].wardhead->totalbeds);
@@ -88,7 +88,7 @@ void Doctor_Analyze(Dept* dept_list)//医生分析
 	int Sum_Work;//记录总使用情况
 	int Sum_Time=1;//记录时间跨度
 	Dept* depp = dept_list;
-	ScheduleNode_Doctor* p = dept_list->next->Dept_doctor_head->schedule_head;
+	Doctor_Id* p = dept_list->Dept_doctor_head;
 	while (p)
 	{
 		Sum_Time++;
@@ -98,11 +98,11 @@ void Doctor_Analyze(Dept* dept_list)//医生分析
 	while (depp)
 	{
 		Sum_Work = 0;
-		DoctorNode* docp=depp->Dept_doctor_head->next;
+		Doctor_Id* docp=depp->Dept_doctor_head;
 
 		while (docp)
 		{
-			ScheduleNode_Doctor* q = docp->schedule_head;
+			ScheduleNode_Doctor* q = get_Doctor_id(docp->id)->schedule_head;
 			while (q)
 			{
 				Sum_Work += q->treat_count;
@@ -249,7 +249,7 @@ void Drug_Analyze(pdrug druglist)
 		drugp = drugp->next_drug;
 	}
 }
-void Account_analyze(Fund_System account, NurseNode*nurlist,Doctor*doclist)
+void Account_analyze(Fund_System *account, NurseNode*nurlist,Doctor*doclist)
 {
 	int sum_nur=0;
 	int sum_doc = 0;
@@ -265,36 +265,36 @@ void Account_analyze(Fund_System account, NurseNode*nurlist,Doctor*doclist)
 		sum_doc++;
 		docp = docp->next;
 	}
-	if (account.sumAmount < 100000.00)
+	if (account->sumAmount < 100000.00)
 	{
 		double salary_nur = nurlist->salary;
 		double salary_doc = doclist->salary;
 		if (salary_nur > 3500.00 && salary_doc>4500.00)
 		{
-			double release1 = (account.sumAmount - 100000.00) / (sum_nur + sum_doc);
+			double release1 = (account->sumAmount - 100000.00) / (sum_nur + sum_doc);
 			if (salary_nur - 3500.00 > release1 && salary_doc - 4500.00 > release1)
 			{
 				printf("advice to decrease every doctor and nurse salary:%.2d\n", release1);
 			}
 			else
 			{
-				if ((salary_nur - 3500.00) * sum_nur + (salary_doc - 4500.00) * sum_doc < account.sumAmount - 100000.00)
+				if ((salary_nur - 3500.00) * sum_nur + (salary_doc - 4500.00) * sum_doc < account->sumAmount - 100000.00)
 				{
 					printf("advice decrease every doctor salary:%.2d\n", salary_doc - 4500.00);
 					printf("advice decrease every nurse salary:%.2d\n", salary_nur - 3500.00);
 				}
 				else
 				{
-					double release2=((salary_nur - 3500.00)* sum_nur + (salary_doc - 4500.00) * sum_doc - account.sumAmount + 100000.00) / (sum_nur + sum_doc);
+					double release2=((salary_nur - 3500.00)* sum_nur + (salary_doc - 4500.00) * sum_doc - account->sumAmount + 100000.00) / (sum_nur + sum_doc);
 					printf("advice decrease every doctor salary:%.2d\n", salary_doc - 4500.00 -release2);
 					printf("advice decrease every nurse salary:%.2d\n", salary_nur - 3500.00 - release2);
 				}
 			}
 		}
 	}
-	if (account.sumAmount > 400000.00)
+	if (account->sumAmount > 400000.00)
 	{
-		double increase1=account.sumAmount-500000.00;
+		double increase1=account->sumAmount-500000.00;
 		if (increase1 > 0)
 		{
 			double increase2;

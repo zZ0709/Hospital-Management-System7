@@ -10,7 +10,7 @@
 #include "Dept.h"
 #include "Global.h"
 #include "cure.h"
-#include "DrugInformation_H"
+#include "DrugInformation.h"
 
 void Init_Date(Date* date, WARD wardlist[3], tdrug* druglist,DoctorNode *doclist, NurseNode* nurlist)
 {
@@ -23,9 +23,9 @@ void Init_Date(Date* date, WARD wardlist[3], tdrug* druglist,DoctorNode *doclist
 			bed* q = p->bedlist->next;
 			while (q)
 			{
-				if (!QueueEmpty(&(q->que)) && (date == NULL || Date_Compare(*date,q->que.is_Use[(q->que.rear + 30) % 31].date)==2))
+				if (!QueueEmpty(&(q->dayQueue)) && (date == NULL || Date_Compare(*date,q->dayQueue.is_Use[(q->dayQueue.rear + 30) % 31].date)==2))
 				{
-					*date = q->que.is_Use[(q->que.rear + 30) % 31].date;
+					*date = q->dayQueue.is_Use[(q->dayQueue.rear + 30) % 31].date;
 				}
 				q = q->next;
 			}
@@ -70,12 +70,12 @@ void Update_Date(Date* date, WARD wardlist[3], tdrug* druglist, DoctorNode* docl
 			bed* q = p->bedlist->next;
 			while (q)
 			{
-				if (Date_Compare(*date, q->que.is_Use[(q->que.rear + 30) % 31].date) == 0)
+				if (Date_Compare(*date, q->dayQueue.is_Use[(q->dayQueue.rear + 30) % 31].date) == 0)
 				{
 					bed_point bed;
 					bed.is_use = 0;
 					bed.date = *date;
-					EnQueue(&q->que,bed);
+					EnQueue(&q->dayQueue,bed);
 				}
 				q = q->next;
 			}
@@ -83,20 +83,13 @@ void Update_Date(Date* date, WARD wardlist[3], tdrug* druglist, DoctorNode* docl
 		}
 	}
 	tdrug* drugp = druglist->next_drug;
-	while (drugp)
-	{
-		if (Date_Compare(*date, drugp->history[drugp->current_day_idx].date) == 0)
-		{
-			initial_today_drug(drugp, *date);
-		}
-		 drugp = drugp->next_drug;
-	}
+	Auto_initial_today_drug(*date);
 	DoctorNode* docp = doclist;
 	while (docp)
 	{
 		if (Date_Compare(*date, docp->schedule_tail->date) == 0)
 		{
-			add_schedule_Doc(docp, *date);
+			add_schedule_Doc(docp, *date,1);
 		}
 		docp = docp->next;
 	}
@@ -105,7 +98,7 @@ void Update_Date(Date* date, WARD wardlist[3], tdrug* druglist, DoctorNode* docl
 	{
 		if (nurp->schedule_head && Date_Compare(*date, nurp->schedule_tail->date) == 0)
 		{
-			add_schedule_Nurse(nursp,*date);
+			add_schedule_Nurse(nurp,*date,1);
 		}
 		nurp = nurp->next;
 	}

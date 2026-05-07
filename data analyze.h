@@ -5,6 +5,7 @@
 #include<stdbool.h>
 #include<math.h>
 #include "ward.h"
+#include "Druginformation.h"
 
 void Ward_Analyze(WARD wardlist[3]);
 void Doctor_Analyze(Dept* dept_list);

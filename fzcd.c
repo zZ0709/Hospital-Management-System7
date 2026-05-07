@@ -85,10 +85,10 @@ void curesystem() {
 		switch (choice) {
 		case 1:add_record(&sys, wardlist); break;//添加诊疗记录
 		case 2:printallrecordnode(&sys, wardlist); break;//显示并输出所有诊疗记录信息
-		case 3:delete_record(&sys, wardlist, Account); break;//删除诊疗记录
-		case 4:modify_record(&sys, wardlist, Account); break;//修改诊疗记录
-		case 5:searchRecordprintf(&sys, wardlist, Account); break; //通过创立时间或患者编号或医生编号三种方式查询对应诊疗记录并输出
-		case 6:ChangeProcessStage(&sys, wardlist, Account); break;//修改诊疗阶段
+		case 3:delete_record(&sys, wardlist, &Account); break;//删除诊疗记录
+		case 4:modify_record(&sys, wardlist, &Account); break;//修改诊疗记录
+		case 5:searchRecordprintf(&sys, wardlist, &Account); break; //通过创立时间或患者编号或医生编号三种方式查询对应诊疗记录并输出
+		case 6:ChangeProcessStage(&sys, wardlist, &Account); break;//修改诊疗阶段
 		case 7:ShowAllInHospitalPatients(&sys); break;// 显示所有住院患者信息 
 		case 8:saveRecordsToFile(&sys,"records.txt");//将数据保存到文件中
 			break;

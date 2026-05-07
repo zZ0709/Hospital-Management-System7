@@ -2,7 +2,8 @@
 #include"cure.h"
 #include"ward.h"
 #include"account.h"
-TreatmentSystem  sys;//全局变量
+#include "Patientinformation.h"
+
 Date1 Date_Input1()//日期输入
 {
 	Date1 ret;
@@ -23,34 +24,6 @@ Date1 Date_Input1()//日期输入
     ret.minute = Int_Input(0, 59);
     printf("\n");
 	return ret;
-}
-Date Date_Input()//日期输入
-{
-    Date ret;
-    printf("please input the date\n");
-    printf("year(2000-2026):");
-    ret.year = Int_Input(2000, 2026);
-    printf("\n");
-    printf("month:");
-    ret.month = Int_Input(1, 12);
-    printf("\n");
-    printf("day:");
-    ret.day = Int_Input(1, 31);
-    printf("\n");
-   
-    return ret;
-}
-int Int_Input(int min, int max)
-{
-    char Str[Str_Len];
-    scanf("%s", Str);
-    int ret = Check1(Str, min, max);   // 先检查一次
-    while (ret == 0) {                  // 0 表示不合法，继续循环
-        printf("input error,please check out the range and try again\n");
-        scanf("%s", Str);
-        ret = Check1(Str, min, max);
-    }
-    return ret;                         // 返回正确的 num
 }
 
 void init_system(TreatmentSystem * sys) {//初始化诊疗管理系统的函数
