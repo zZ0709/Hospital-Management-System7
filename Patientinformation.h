@@ -13,6 +13,7 @@
 #include<math.h>
 #include<stdlib.h>
 #include "Date.h"
+#include "Struct.h"
 #define maxdrugname    100//药品名字最大长度
 #define maxname       25//姓名字符串长度     
 #define maxhistory    100//病史字符串长度    
@@ -48,8 +49,11 @@ typedef struct registration {//#####head中medical_number为0
 	struct registration* next_record; // 用于总挂号链表（不排序，一直往后接）
 	struct registration* next_doctor_record; // 用于医生个人队列（按时间排序）
 }tregistration;
+
 typedef struct registration* pregistration;
+
 typedef tregistration ScheduleNode;//###别名
+
 typedef struct {//当日患者人数记录    
 	Date today;//当日日期
 	int outpatient_number;//门诊人数：规定每晚24:00重置,最多120

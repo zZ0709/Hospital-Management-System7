@@ -113,8 +113,8 @@ typedef struct drug_record { // 每一笔具体的开药记录
 } tdrug_record;
 typedef tdrug_record* pdrug_record;
 
-typedef struct {//main中建立latesttime保存现场挂号的最晚时间模拟当前时间
-	int hour;//24小时制
+typedef struct Time{	//main中建立latesttime保存现场挂号的最晚时间模拟当前时间
+	int hour;		//24小时制
 	int minute;
 }Time;
 
@@ -142,8 +142,11 @@ typedef struct registration {//#####head中medical_number为0
 	struct registration* next_record; // 用于总挂号链表（不排序，一直往后接）
 	struct registration* next_doctor_record; // 用于医生个人队列（按时间排序）
 }tregistration;
+
 typedef struct registration* pregistration;
+
 typedef tregistration ScheduleNode;
+
 typedef struct {//当日患者人数记录    
 	Date today;//当日日期
 	int outpatient_number;//门诊人数：规定每晚24:00重置,最多120
