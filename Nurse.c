@@ -196,19 +196,41 @@ void add_nurse() {
             free(ward_id_node);
 			continue;
         }
-		//检测此病房是否已经有护士负责
+
+		//检测此病房护士是否满员
 		ward* temp_ward = Searchward(wardlist, temp_ward_id);
-        if (temp_ward->nurse_id[0] != '\0') {
-            printf("This ward already has a nurse in charge! Please re-enter.\n");
+        if (temp_ward->nursenum >= MAX_WARD_NURSE) {
+            printf("This ward already has %d nurses in charge! Please re-enter.\n", MAX_WARD_NURSE);
             free(ward_id_node);
-            continue;
+			continue;
         }
+        
         else {
-            //把护士id放入病房节点，表示这个病房由这个护士负责
-			strcpy(temp_ward->nurseid, node->id);
+            //把护士id放入病房里护士id链表，表示此护士负责这个病房了
+			NurseIDNode* nurse_id_node = (NurseIDNode*)malloc(sizeof(NurseIDNode));
+			if (nurse_id_node == NULL) {
+                printf("Memory allocation failed!\n");
+                free(ward_id_node);
+                return;
+
+            }
+			strcpy(nurse_id_node->nurseid, node->id);
+
+			if (temp_ward->nurselist == NULL) {
+                temp_ward->nurselist = nurse_id_node;
+            }
+            else {
+                NurseIDNode* p = temp_ward->nurselist;
+                while (p->next != NULL) {
+                    p = p->next;
+                }
+                p->next = nurse_id_node;
+            }
+
+            temp_ward->nursenum++;
         }
 
-        //检测完成，放入链表
+        //检测完成，把病房放入护士的病房id这个链表
 		strcpy(ward_id_node->wards_id, temp_ward_id);
 
 
@@ -267,12 +289,31 @@ void delete_nurse() {
                 schedule_temp = schedule_temp->next;
                 free(temp);
             }
+
 			//释放护士负责病房id链表节点
             Nurse_ward_id* ward_temp = p->ward_head_id;
             while (ward_temp != NULL) {
 				ward* temp_ward = Searchward(wardlist, ward_temp->wards_id);
 
-				temp_ward->nurseid[0] = '\0';   //病房不再由护士负责，清空病房节点的nurseid
+				//从病房的护士链表中移除该护士
+				NurseIDNode* nurse_temp = temp_ward->nurselist;
+
+				NurseIDNode* nurse_prev = NULL;
+
+				while (nurse_temp != NULL) {
+					if (strcmp(nurse_temp->nurseid, p->id) == 0) {
+						if (nurse_prev == NULL) {
+							temp_ward->nurselist = nurse_temp->next;
+						} else {
+							nurse_prev->next = nurse_temp->next;
+						}
+						free(nurse_temp);
+						temp_ward->nursenum--;
+						break;
+					}
+					nurse_prev = nurse_temp;
+					nurse_temp = nurse_temp->next;
+				}
 
                 Nurse_ward_id* temp = ward_temp;
                 ward_temp = ward_temp->next;
