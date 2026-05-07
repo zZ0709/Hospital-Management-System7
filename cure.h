@@ -5,13 +5,9 @@
 #include<stdbool.h>
 #include"ward.h"
 #include"zl.h"
-#include"date.h"
-extern tpatientlist g_patientList;
-struct Date;
-struct Fund_System;//声明资金类型
-extern Fund_System *Account;
-extern WARD wardlist[3];//全局变量 病房类型数组
-extern TreatmentSystem sys;//声明全局变量
+#include"date1.h"
+#include "account.h"
+#include "Date.h"
 #define Str_Len 20   //最大长度
 #define patientghmax 5//每位患者每天最多可挂五个号
 #define hgdepartmentmax 1 //每位患者同一科室最多可挂一个号
@@ -48,6 +44,8 @@ typedef struct TreatmentSystem{//诊疗管理系统结构体
 	RecordNode* record_head;//诊疗记录链表头节点
 	int record_count;//当前有效诊疗记录数量
 }TreatmentSystem;
+extern tpatientlist g_patientList;
+extern WARD wardlist[3];//全局变量 病房类型数组
 extern TreatmentSystem sys;//声明全局变量
 Date1 Date_Input1();//日期输入具体到分钟
 Date Date_Input();//日期输入具体到日

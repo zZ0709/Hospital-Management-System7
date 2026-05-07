@@ -198,7 +198,7 @@ void Init_Account(Fund_System *Account)//初始化资金账户
 	(*Account).Fund_List->next = NULL;
 	Account->Record_Num = 0;
 }
-void Fund_Add(Fund_System Account)//添加资金记录
+void Fund_Add(Fund_System *Account)//添加资金记录
 {
 	printf("please input the number of fundrecords(1-50)\n");//填入需要添加的资金记录的数量
 	int FundRecord_Num=Int_Input(1, 50);
@@ -208,50 +208,50 @@ void Fund_Add(Fund_System Account)//添加资金记录
 			printf("Failed to add,the space is insufficient\n");
 			return;//防御性编程，防止开辟空间失败
 		}
-		p->next = Account.Fund_List->next;
-		Account.Fund_List->next = p;
+		p->next = Account->Fund_List->next;
+		Account->Fund_List->next = p;
 		//输入日期
 		p->date = Date_Input();
 		//输入金额和变动来源
 		printf("please input the cash\n");
 		p->cash = Double_Input();
-		Account.sumAmount += p->cash;
+		Account->sumAmount += p->cash;
 		printf("please input the type\n");
 		Type_Choose();
 		p->type = Int_Input(1,6);
 		p->Is_Valid = 1;//默认有效
 		FundRecord_Num--;
-		Account.Record_Num++;
+		Account->Record_Num++;
 		//自动记录序号
-		p->order_Number = Account.Record_Num;
+		p->order_Number = Account->Record_Num;
 	}
 	printf("add successfully\n");
 	Account_Save_File(Account);//保存到文件中
 	system("pause");//清屏
 	system("cls");
 }
-void Auto_Fund(Fund_System Account, int type, int cash, Date date)
+void Auto_Fund(Fund_System *Account, int type, int cash, Date date)
 {
 	Fund_Record* p = (Fund_Record*)malloc(sizeof(Fund_Record));
 	if (p == NULL) {
 		printf("Failed to add,the space is insufficient\n");
 		return;//防御性编程，防止开辟空间失败
 	}
-	p->next = Account.Fund_List->next;
-	Account.Fund_List->next = p;
+	p->next = Account->Fund_List->next;
+	Account->Fund_List->next = p;
 	//日期
 	p->date = date;
 	//金额和变动来源
 	p->cash = cash;
-	Account.sumAmount += p->cash;
+	Account->sumAmount += p->cash;
 	p->type = type;
 	p->Is_Valid = 1;//默认有效
-	Account.Record_Num++;
+	Account->Record_Num++;
 	//自动记录序号
-	p->order_Number = Account.Record_Num;
+	p->order_Number = Account->Record_Num;
 	Account_Save_File(Account);//保存到文件中
 }
-void Fund_Change(Fund_System Account)//记录修改
+void Fund_Change(Fund_System *Account)//记录修改
 {
 	while (1) {
 		printf("please input way of search\n\n");//选择查找资金记录的方法
@@ -264,8 +264,8 @@ void Fund_Change(Fund_System Account)//记录修改
 		{
 		case 1://跟据序号查找
 			printf("please input the ordernumber\n");
-			int order_Number = Int_Input(1, Account.Record_Num);
-			Fund_Record* p = Account.Fund_List->next;
+			int order_Number = Int_Input(1, Account->Record_Num);
+			Fund_Record* p = Account->Fund_List->next;
 			while (p) {//打印找到的记录的信息
 				if (p->order_Number == order_Number && p->Is_Valid)
 				{
@@ -297,7 +297,7 @@ void Fund_Change(Fund_System Account)//记录修改
 			printf("please input the date\n");
 			Date date = Date_Input();
 			bool flag1 = 0, flag2 = 0;
-			Fund_Record* p = Account.Fund_List->next;
+			Fund_Record* p = Account->Fund_List->next;
 			while (p)//查找打印所有符合日期的信息
 			{
 				if (p->date.year == date.year && p->date.month == date.month && p->date.day == date.day && p->Is_Valid) {
@@ -336,11 +336,13 @@ void Fund_Change(Fund_System Account)//记录修改
 		printf("1.continue or 2.leave\n");//选择是否继续修改
 		if (Int_Input(1, 2) == 2)
 		{
+			//清屏
+			system("cls");
 			break;
 		}
 	}
 }
-void Fund_Delete(Fund_System Account)//记录删除
+void Fund_Delete(Fund_System *Account)//记录删除
 {
 	while (1) {
 		printf("please input way of search\n\n");//选择查找资金记录的方法
@@ -353,8 +355,8 @@ void Fund_Delete(Fund_System Account)//记录删除
 		{
 		case 1://跟据序号查找
 			printf("please input the ordernumber\n");
-			int order_Number = Int_Input(1, Account.Record_Num);
-			Fund_Record* p = Account.Fund_List->next, * q = Account.Fund_List;
+			int order_Number = Int_Input(1, Account->Record_Num);
+			Fund_Record* p = Account->Fund_List->next, * q = Account->Fund_List;
 			bool flag = 0;
 			while (p) {//打印找到的记录的信息
 				if (p->order_Number == order_Number && p->Is_Valid)//对每一个符合的记录判断是否删除
@@ -386,7 +388,7 @@ void Fund_Delete(Fund_System Account)//记录删除
 			printf("please input the date\n");
 			Date date = Date_Input();
 			bool flag1 = 0, flag2 = 0;
-			Fund_Record* p = Account.Fund_List->next, * q = Account.Fund_List;
+			Fund_Record* p = Account->Fund_List->next, * q = Account->Fund_List;
 			while (p)//查找打印所有符合日期的信息
 			{
 				if (p->date.year == date.year && p->date.month == date.month && p->date.day == date.day && p->Is_Valid) {
@@ -420,11 +422,12 @@ void Fund_Delete(Fund_System Account)//记录删除
 		printf("1.continue or 2.leave\n");//选择是否继续删除
 		if (Int_Input(1, 2) == 2)
 		{
+			system("cls");
 			break;
 		}
 	}
 }
-void Foud_Search(Fund_System Account)//资金记录查找
+void Foud_Search(Fund_System *Account)//资金记录查找
 {
 	while (1) {
 		printf("please input way of search\n\n");//选择查找资金记录的方法
@@ -437,8 +440,8 @@ void Foud_Search(Fund_System Account)//资金记录查找
 		{
 		case 1://跟据序号查找
 			printf("please input the ordernumber\n");
-			int order_Number = Int_Input(1, Account.Record_Num);
-			Fund_Record* p = Account.Fund_List->next;
+			int order_Number = Int_Input(1, Account->Record_Num);
+			Fund_Record* p = Account->Fund_List->next;
 			while (p) {//打印找到的记录的信息
 				if (p->order_Number == order_Number)
 				{
@@ -456,7 +459,7 @@ void Foud_Search(Fund_System Account)//资金记录查找
 			//输入日期
 			printf("please input the date\n");
 			Date date = Date_Input();
-			Fund_Record* p = Account.Fund_List->next;
+			Fund_Record* p = Account->Fund_List->next;
 			bool flag = 0;
 			while (p)//查找打印所有符合日期的信息
 			{
@@ -477,11 +480,12 @@ void Foud_Search(Fund_System Account)//资金记录查找
 		printf("1.continue or 2.leave\n");//选择是否继续查找
 		if (Int_Input(1, 2) == 2)
 		{
+			system("cls");
 			break;
 		}
 	}
 }
-void Print_Allrecord(Fund_System Account)//打印某段时间内的所有记录
+void Print_Allrecord(Fund_System *Account)//打印某段时间内的所有记录
 {
 	//选择起止时间
 	printf("please input the range you want to print\n");
@@ -490,7 +494,7 @@ void Print_Allrecord(Fund_System Account)//打印某段时间内的所有记录
 	printf("\n");
 	printf("the end:");
 	Date date_End = Date_Input();
-	Fund_Record* p = Account.Fund_List->next;
+	Fund_Record* p = Account->Fund_List->next;
 	//打印操作
 	while (p)
 	{
@@ -502,11 +506,11 @@ void Print_Allrecord(Fund_System Account)//打印某段时间内的所有记录
 	}
 	printf("print successfully\n");
 }
-int Account_Save_File(Fund_System Account)//文件保存
+int Account_Save_File(Fund_System *Account)//文件保存
 {
 	FILE* fStup;
 	fStup = fopen(Account_Filename, "w");
-	Fund_Record* p = Account.Fund_List->next;//将链表数据写入文件
+	Fund_Record* p = Account->Fund_List->next;//将链表数据写入文件
 	while (p) {
 		fprintf(fStup, "%d. date:year %d month %d day %d\tcase:%.2f\ttype:%d\tvalid:%d\n",
 			p->order_Number,p->date.year,p->date.month,p->date.day,p->cash,p->type,p->Is_Valid);
@@ -516,7 +520,7 @@ int Account_Save_File(Fund_System Account)//文件保存
 	printf("saved successfully\n");
 	return 1;
 }
-int Account_Save_Read(Fund_System Account)//文件读取，将文件内容存到链表里
+int Account_Save_Read(Fund_System *Account)//文件读取，将文件内容存到链表里
 {
 	FILE* fStup;
 	fStup = fopen(Account_Filename, "r");
@@ -533,8 +537,8 @@ int Account_Save_Read(Fund_System Account)//文件读取，将文件内容存到
 			printf("you don't have enough space\n");
 			return 0;//防御性编程，防止开辟空间失败
 		}
-		p->next = Account.Fund_List->next;//将文件中读取到的信息转移到链表中
-		Account.Fund_List->next = p;
+		p->next = Account->Fund_List->next;//将文件中读取到的信息转移到链表中
+		Account->Fund_List->next = p;
 		p->order_Number = record.order_Number;
 		p->date = record.date;
 		p->cash = record.cash;

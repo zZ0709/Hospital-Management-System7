@@ -106,6 +106,16 @@ void initial_today_drug(Date today) {
 	}
 	printf("Daily initialization completed.\n");
 }
+void Auto_initial_today_drug(Date today) {
+	pdrug p = druglisthead->next_drug;//用于遍历
+	while (p) {
+		p->current_day_idx = p->valid_days % 30;
+		p->history[p->current_day_idx].inbound = p->history[p->current_day_idx].outbound = 0;
+		p->history[p->current_day_idx].date = today;
+		p->valid_days++;
+		p = p->next_drug;
+	}
+}
 
 void add_druglist(Date today) {
 	int first;//保存药品编号第一位数

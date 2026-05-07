@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<string.h>
 #include "Define.h"
+<<<<<<< Updated upstream
 
 //日期节点
 typedef struct {
@@ -12,10 +13,13 @@ typedef struct {
     int day;//日
 }DateNode;
  typedef DateNode Date;
+=======
+#include "Date.h"
+>>>>>>> Stashed changes
 
 //医生这个月的排班表，链表形式，每个节点存储一天的日期和是否上班
 typedef struct ScheduleNode_Doctor {
-    DateNode date;               // 日期
+    Date date;               // 日期
 	int treat_count;          // 这一天接诊了几个人，挂了几个号（默认0，接诊一次加1，最多20人次）
     struct ScheduleNode_Doctor* next; // 队列指针
 } ScheduleNode_Doctor;
@@ -65,7 +69,7 @@ typedef struct Nurse_ward_id {
 
 //护士这个月的排班表，链表形式，每个节点存储一天的日期和是否上班
 typedef struct ScheduleNode_Nurse {
-    DateNode date;               // 日期
+    Date date;               // 日期
 	int Is_work;          //    0:不上班 1:上班
     struct ScheduleNode_Nurse* next; // 队列指针
 } ScheduleNode_Nurse;

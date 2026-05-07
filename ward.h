@@ -3,15 +3,16 @@
 #include<string.h>
 #include<stdbool.h>
 #include<stdlib.h>
-#include"date.h"
-extern NurseNode* get_Nurse_id(const char* id);//通过编号得到对应护士节点
+#include"date1.h"
+#include "Nurse.h"
+#include "Tool.h"
+#include "Date.h"
+#include "account.h"
+
 typedef struct patient tpatient;  // 声明结构体类型
 typedef tpatient * ppatient;        // 声明指针类型
 typedef struct patientlist tpatientlist;//声明结构体类型
 typedef tpatientlist* ppatientlist;//声明指针类型
-struct  NurseNode;//声明护士类型
-struct Fund_System;//声明资金类型
-struct Date;
 extern tpatientlist g_patientList;
 #define wardmax 80//病房最多数量
 #define inpatient 60//住院患者最多数量
