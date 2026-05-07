@@ -190,12 +190,14 @@ void add_nurse() {
 			free(ward_id_node);
             continue;
         }
+
 		//检测此病房是否与护士的病房类型匹配
         if (temp_ward_id[1] != node->id[1]) {
             printf("Ward ID does not match nurse's ward type! Please re-enter.\n");
             free(ward_id_node);
 			continue;
         }
+
 
 		//检测此病房护士是否满员
 		ward* temp_ward = Searchward(wardlist, temp_ward_id);
@@ -205,32 +207,13 @@ void add_nurse() {
 			continue;
         }
         
-        else {
-            //把护士id放入病房里护士id链表，表示此护士负责这个病房了
-			NurseIDNode* nurse_id_node = (NurseIDNode*)malloc(sizeof(NurseIDNode));
-			if (nurse_id_node == NULL) {
-                printf("Memory allocation failed!\n");
-                free(ward_id_node);
-                return;
+        //检测完成
+        
+        //先完成病房方面，把护士id放入病房里护士id链表，表示此护士负责了这个病房
+        AddNurseToWard1(temp_ward, node->id);
 
-            }
-			strcpy(nurse_id_node->nurseid, node->id);
-
-			if (temp_ward->nurselist == NULL) {
-                temp_ward->nurselist = nurse_id_node;
-            }
-            else {
-                NurseIDNode* p = temp_ward->nurselist;
-                while (p->next != NULL) {
-                    p = p->next;
-                }
-                p->next = nurse_id_node;
-            }
-
-            temp_ward->nursenum++;
-        }
-
-        //检测完成，把病房放入护士的病房id这个链表
+        
+        //再完成护士方面，把病房放入护士的病房id这个链表
 		strcpy(ward_id_node->wards_id, temp_ward_id);
 
 
@@ -274,6 +257,7 @@ void delete_nurse() {
     NurseNode* prev = NULL;
 
     while (p != NULL) {
+		//找到要删除的护士
         if (strcmp(p->id, id) == 0) {
             if (prev == NULL) {
                 nurse_head = p->next;
@@ -281,6 +265,7 @@ void delete_nurse() {
             else {
                 prev->next = p->next;
             }
+
             //释放护士日期记录链表节点
             ScheduleNode_Nurse* schedule_temp = p->schedule_head;
 
@@ -290,43 +275,35 @@ void delete_nurse() {
                 free(temp);
             }
 
-			//释放护士负责病房id链表节点
+
+			//释放护士负责的病房id链表节点
             Nurse_ward_id* ward_temp = p->ward_head_id;
             while (ward_temp != NULL) {
-				ward* temp_ward = Searchward(wardlist, ward_temp->wards_id);
+                
+                //从病房的护士链表中移除该护士，把此病房中护士链表中这个护士的id删除，护士链表不满了，护士总数-1
+                ward* temp_ward = Searchward(wardlist, ward_temp->wards_id);
+				RemoveNurseFromWard1(temp_ward, p->id);
 
-				//从病房的护士链表中移除该护士
-				NurseIDNode* nurse_temp = temp_ward->nurselist;
 
-				NurseIDNode* nurse_prev = NULL;
-
-				while (nurse_temp != NULL) {
-					if (strcmp(nurse_temp->nurseid, p->id) == 0) {
-						if (nurse_prev == NULL) {
-							temp_ward->nurselist = nurse_temp->next;
-						} else {
-							nurse_prev->next = nurse_temp->next;
-						}
-						free(nurse_temp);
-						temp_ward->nursenum--;
-						break;
-					}
-					nurse_prev = nurse_temp;
-					nurse_temp = nurse_temp->next;
-				}
-
+				//在护士中的病房链表中删除这个病房节点
                 Nurse_ward_id* temp = ward_temp;
                 ward_temp = ward_temp->next;
                 free(temp);
             }
+
+            //这是最外层释放，护士本体
             free(p);
             nurse_count--;
             printf("Nurse %s deleted! Remaining: %d\n", id, nurse_count);
             return;
         }
+
+		//这个不是该删除的护士，则继续遍历
         prev = p;
         p = p->next;
     }
+
+
     printf("Nurse with ID %s not found.\n", id);
 }
 
@@ -429,23 +406,24 @@ void modify_nurse() {
                         free(ward_id_node1);
                         continue;
                     }
-                    //检测此病房是否已经有护士负责
+                    //检测此病房护士是否满员
                     ward* temp_ward = Searchward(wardlist, temp_ward_id);
-                    if (temp_ward->nurse_id[0] != '\0') {
-                        printf("This ward already has a nurse in charge! Please re-enter.\n");
+                    if (temp_ward->nursenum >= MAX_WARD_NURSE) {
+                        printf("This ward already has %d nurses in charge! Please re-enter.\n", MAX_WARD_NURSE);
                         free(ward_id_node1);
                         continue;
                     }
-                    else {
-                        //把护士id放入病房节点，表示这个病房由这个护士负责
-                        strcpy(temp_ward->nurseid, p->id);
-                    }
+                  
+                    //先完成病房方面，把护士id放入病房里护士id链表，表示此护士负责了这个病房
+                    AddNurseToWard1(temp_ward, p->id);
 
-					//检测完成，放入链表
-					strcpy(ward_id_node1->wards_id, temp_ward_id);
+
+                    //再完成护士方面，把病房放入护士的病房id这个链表
+                    strcpy(ward_id_node1->wards_id, temp_ward_id);
                   
 
-                    clear_input();
+                    //clear_input();
+
                     if (p->ward_head_id == NULL) {              //p是我们想修改的护士的节点
                         p->ward_head_id = ward_id_node1;
                         
@@ -489,23 +467,29 @@ void modify_nurse() {
                         continue;
                     }
 
-                    //检测此病房是否已经有护士负责
+                    //检测此病房护士是否满员
                     ward* temp_ward = Searchward(wardlist, temp_ward_id);
-                    if (temp_ward->nurse_id[0] != '\0') {
-                        printf("This ward already has a nurse in charge! Please re-enter.\n");
+                    if (temp_ward->nursenum >= MAX_WARD_NURSE) {
+                        printf("This ward already has %d nurses in charge! Please re-enter.\n", MAX_WARD_NURSE);
                         free(ward_id_node1);
                         continue;
                     }
                     
 
-                    clear_input();
+                    //clear_input();
+
                     int found = 0;
+
                     Nurse_ward_id* prep = NULL, * p1 = p->ward_head_id;
+
                     if (p->ward_head_id == NULL) {
                         printf("No wards available!\n");
                         break;
                     }
+
                     if (strcmp(p1->wards_id, temp_ward_id) == 0) {
+						RemoveNurseFromWard(Searchward(wardlist, temp_ward_id), p->id); //先从病房方面删除这个护士
+						//再从护士方面删除这个病房节点
                         prep = p1;
                         p->ward_head_id = p1->next;
                         found = 1;
@@ -517,6 +501,8 @@ void modify_nurse() {
                         p1 = p1->next;
                         while (p1!=NULL) {
                             if (strcmp(p1->wards_id, temp_ward_id) == 0) {
+                                RemoveNurseFromWard(Searchward(wardlist, temp_ward_id), p->id); //先从病房方面删除这个护士
+                                //再从护士方面删除这个病房节点
                                 prep->next = p1->next;
                                 free(p1);
                                 found = 1;
