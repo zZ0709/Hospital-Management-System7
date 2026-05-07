@@ -6,12 +6,14 @@
 #define depositmin 1000
 
 #include"ward.h"
-#include"date.h"
+#include"date1.h"
 #include"cure.h"
+#include "Druginformation.h"
+#include "account.h"
+#include "Date.h"
 typedef struct RecordNode  RecordNode;
 struct TreatmentSystem;
-struct Fund_System;
-struct Date;
+
 extern tpatientlist g_patientList;
 int isLeapYear(int year);//判断闰年
 // 只算年月日差值

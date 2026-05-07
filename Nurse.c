@@ -50,7 +50,7 @@ NurseNode* create_nurse_node() {
 }
 
 // 给护士添加一天排班（尾插入队列，最新的放在队列尾）
-void add_schedule_Nurse(NurseNode* nurse, DateNode date,int day_or_days) {
+void add_schedule_Nurse(NurseNode* nurse, Date date,int day_or_days) {
     ScheduleNode_Nurse* node = creat_schedule_node_Nurse();
     if (node == NULL) return;
 

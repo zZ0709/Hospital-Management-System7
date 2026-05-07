@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "Define.h"
 #include "Struct.h"
+
 //  获取级别名称（医生）
 const char* get_doctor_level_name(int level);
 
@@ -84,10 +85,10 @@ int Num_0_30_Input(const char* str);
 int Num_0_20_Input(const char* str);
 
 //临时day_input
-DateNode Day_input(DateNode* day);
+Date Day_input(Date* day);
 
 //创建一个DateNode
-DateNode* Create_DateNode();
+Date* Create_DateNode();
 
 //医生薪资管理
 void Salary_Doc_Management();

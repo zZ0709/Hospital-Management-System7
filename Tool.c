@@ -437,9 +437,9 @@ int schedule_Doc(DoctorNode *node,int Is_add) {
     }
 
     if (Is_add == 1) {
-        DateNode* day = Create_DateNode();
+        Date* day = Create_DateNode();
         
-        Date_Check(new_date, day);
+        Date_Check(&New_Date, *day);
         //内部add_schedule_Doc形参加为1
         //add_schedule_Doc(node, Day_input(day));
         
@@ -448,7 +448,7 @@ int schedule_Doc(DoctorNode *node,int Is_add) {
 		return 0;
     }
 
-    DateNode* day = Create_DateNode();
+    Date* day = Create_DateNode();
 
     for (int i = 0;i < days;i++) {
                 
@@ -476,7 +476,7 @@ int schedule_Nurse(NurseNode* node, int Is_add) {
     }
 
 	if (Is_add == 1) {
-        DateNode* day = Create_DateNode();
+        Date* day = Create_DateNode();
         
         Date_Check(new_date, day);
         //内部add_schedule_Nurse形参加为1
@@ -487,7 +487,7 @@ int schedule_Nurse(NurseNode* node, int Is_add) {
         return 0;
     }
 
-    DateNode* day = Create_DateNode();
+    Date* day = Create_DateNode();
         for (int i = 0;i < days;i++) {
         
             add_schedule_Nurse(node, Day_input(day),2 );
@@ -568,7 +568,7 @@ int Num_0_20_Input(const char* str) {
 }
 
 //临时day_input       安全输入一个day
-DateNode Day_input(DateNode* day) {
+Date Day_input(Date* day) {
     int y, m, d;
     bool valid;
 
@@ -615,8 +615,8 @@ DateNode Day_input(DateNode* day) {
 }
 
 //创建一个DateNode
-DateNode* Create_DateNode() {
-    DateNode* node = (DateNode*)malloc(sizeof(DateNode));
+Date* Create_DateNode() {
+    Date* node = (Date*)malloc(sizeof(Date));
     if (node == NULL) {
 		printf("Memory allocation failed!\n");
 		return NULL;
@@ -745,7 +745,7 @@ int Modify_Schedule_Doc(DoctorNode* doctor, ScheduleNode_Doctor* schedule_head, 
         return -1;
     }
 
-    DateNode day = Day_input(Create_DateNode());
+    Date day = Day_input(Create_DateNode());
     ScheduleNode_Doctor* temp = doctor->schedule_head;
 
     while (temp != NULL) {
@@ -772,7 +772,7 @@ int Modify_Schedule_Nurse(NurseNode* nurse, ScheduleNode_Nurse* schedule_head, S
         return -1;
     }
 
-    DateNode day = Day_input(Create_DateNode());
+    Date day = Day_input(Create_DateNode());
 
     ScheduleNode_Nurse* temp = nurse->schedule_head;
 

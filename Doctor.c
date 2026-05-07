@@ -50,7 +50,7 @@ DoctorNode* create_doctor_node() {
 }
 
 // 给医生添加一天排班（尾插入队列，最新的放在队列尾）
-void add_schedule_Doc(DoctorNode* doctor, DateNode date, int day_or_days) {
+void add_schedule_Doc(DoctorNode* doctor, Date date, int day_or_days) {
     ScheduleNode_Doctor* node = creat_schedule_node_Doc();
     if (node == NULL) return;
 
