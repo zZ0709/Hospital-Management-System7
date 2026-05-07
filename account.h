@@ -31,6 +31,7 @@ typedef struct {
 	int sumAmount;//账户余额
 	int Record_Num;//记录条数
 }Fund_System;
+Fund_System Account;
 extern Fund_System Account;
 
 bool Check_Double(const char* str);

@@ -9,11 +9,11 @@
 #include "Date.h"
 #include "account.h"
 
-typedef struct patient tpatient;  // 声明结构体类型
-typedef tpatient * ppatient;        // 声明指针类型
-typedef struct patientlist tpatientlist;//声明结构体类型
-typedef tpatientlist* ppatientlist;//声明指针类型
-extern tpatientlist g_patientList;
+//typedef struct patient tpatient;  // 声明结构体类型
+//typedef tpatient * ppatient;        // 声明指针类型
+//typedef struct patientlist tpatientlist;//声明结构体类型
+//typedef tpatientlist* ppatientlist;//声明指针类型
+//extern tpatientlist g_patientList;
 #define wardmax 80//病房最多数量
 #define inpatient 60//住院患者最多数量
 #define ptbeds 4//普通病房床数

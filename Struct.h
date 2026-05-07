@@ -4,18 +4,7 @@
 #include<stdio.h>
 #include<string.h>
 #include "Define.h"
-<<<<<<< Updated upstream
-
-//日期节点
-typedef struct {
-    int year;//年
-    int month;//月
-    int day;//日
-}DateNode;
- typedef DateNode Date;
-=======
 #include "Date.h"
->>>>>>> Stashed changes
 
 //医生这个月的排班表，链表形式，每个节点存储一天的日期和是否上班
 typedef struct ScheduleNode_Doctor {

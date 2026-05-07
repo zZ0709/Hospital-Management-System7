@@ -1,4 +1,5 @@
 #include "patientinformation.h"
+#include "Struct.h"
 ppatient patienthead=NULL ;
 ppatient patientrear=NULL;
 pregistration registrationhead = NULL;
@@ -131,15 +132,15 @@ void insert_registration_by_time(DoctorNode* q, pregistration p) {
 }
 
 
-ppatient search_patientlist() { 
+ppatient search_patientlist() {
 	ppatient p;
 	char patientid[19];
-    get_alpha_string("Please enter ID number number:\n", patientid,19);
+	get_alpha_string("Please enter ID number number:\n", patientid, 19);
 	p = patienthead->next_patient;
 
 
 	while (p != NULL && strcmp(patientid, p->patient_ID) != 0) {
-		
+
 		p = p->next_patient;
 	}
 	if (p) {
@@ -153,6 +154,7 @@ ppatient search_patientlist() {
 
 		return NULL;
 	}
+}
 
 ppatient search_by_patientnumber(){
     ppatient p;
