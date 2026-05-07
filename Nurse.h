@@ -1,7 +1,7 @@
 #pragma once
+#include"Struct.h"
 #include"Define.h"
 #include"Global.h"
-#include"Struct.h"
 
 //创建一个护士的排班表节点
 ScheduleNode_Nurse* creat_schedule_node_Nurse();

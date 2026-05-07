@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include<ctype.h>
 #include <stdbool.h>
-#include "Define.h"
 #include "Struct.h"
+#include "Define.h"
 
 //  获取级别名称（医生）
 const char* get_doctor_level_name(int level);

@@ -161,7 +161,7 @@ double Double_Input()//浮点数输入
 	double last=0;
 	for (i++;Str[i];i++)//小数部分
 	{
-		last += last * 10 + Str[i] - '0';
+		last = last * 10 + Str[i] - '0';
 	}
 	ret += last / 100;
 	if (Str[i] == '-');

@@ -109,6 +109,6 @@ void Date_Check(Date* Sum_Date,Date date)
 	if (Date_Compare(date, *Sum_Date) == 0)
 	{
 		*Sum_Date = date;
-		Update_Date(&New_Date,wardlist[3],drug_head, doctor_head, nurse_head);
+		Update_Date(&New_Date,wardlist[3],druglisthead, doctor_head, nurse_head);
 	}
 }

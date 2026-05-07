@@ -3,6 +3,7 @@
 #include"ward.h"
 #include"account.h"
 #include "Patientinformation.h"
+#include "Struct.h"
 
 Date1 Date_Input1()//日期输入
 {

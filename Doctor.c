@@ -2,11 +2,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include"Struct.h"
 #include"Define.h"
 #include"Tool.h"
 #include"Global.h"
 #include"Doctor.h"
 #include"Dept.h"
+
 
  DoctorNode* doctor_head = NULL;
  int doctor_count = 0;
