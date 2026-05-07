@@ -32,11 +32,11 @@ typedef struct Fund_Record {
 //========================账户数据====================================
 typedef struct {
 	Fund_Record* Fund_List; //资金记录链表头
-	double sumAmount;       //账户余额（改为double以匹配金额）
+	double sumAmount;       //账户余额
 	int Record_Num;         //记录条数
 } Fund_System;
 
-extern Fund_System Account; // 在实现文件中定义（不要在头文件中重复定义）
+extern Fund_System Account; // 在实现文件中定义
 
 bool Check_Double(const char* str);
 int Date_Compare(Date Start, Date End); //判断两个日期的先后是否合法
