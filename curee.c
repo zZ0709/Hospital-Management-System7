@@ -92,6 +92,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the delete time\n");
                         Date time = Date_Input();//输入删除时间
                         UpdateAllBedsQueue(wardlist, time);//对床队列状态进行更新
+                        Date_Check(&New_Date, time);
                         double delTotal = p->examfees + p->treatmentfees + p->totalWardCost;
                         if (delTotal > 0) {
                             Auto_Fund(Account, 1, -delTotal, time);
@@ -229,7 +230,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
 
                         DoctorNode* doc;
                         while (1) {
-                            doc = Doctor_id();
+                            doc = Find_Doctor_id();
                             if (doc == NULL) {
                                 continue;
                             }
@@ -271,6 +272,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the modify time\n");
                         Date time = Date_Input();
                         UpdateAllBedsQueue(wardlist, time);
+                        Date_Check(&New_Date, time);
                         printf("Modify successfully\n");
                     }
                 }
@@ -335,6 +337,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the delete time\n");
                         Date time = Date_Input();//输入删除时间
                         UpdateAllBedsQueue(wardlist, time);//对床队列状态进行更新
+                        Date_Check(&New_Date, time);
                         double delTotal = p->examfees + p->treatmentfees + p->totalWardCost;
                         if (delTotal > 0) {
                             Auto_Fund(Account, 1, -delTotal, time);
@@ -473,7 +476,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
 
                         DoctorNode* doc;
                         while (1) {
-                            doc = Doctor_id();
+                            doc = Find_Doctor_id();
                             if (doc == NULL) {
                                 continue;
                             }
@@ -516,6 +519,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the modify time\n");
                         Date time = Date_Input();
                         UpdateAllBedsQueue(wardlist, time);
+                        Date_Check(&New_Date, time);
                         printf("Modify successfully\n");
                     }
                 }
@@ -579,6 +583,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the delete time\n");
                         Date time = Date_Input();//输入删除时间
                         UpdateAllBedsQueue(wardlist, time);//对床队列状态进行更新
+                        Date_Check(&New_Date, time);
                         double delTotal = p->examfees + p->treatmentfees + p->totalWardCost;
                         if (delTotal > 0) {
                             Auto_Fund(Account, 1, -delTotal, time);
@@ -715,7 +720,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         }
                         DoctorNode* doc;
                         while (1) {
-                            doc = Doctor_id();
+                            doc = Find_Doctor_id();
                             if (doc == NULL) {
                                 continue;
                             }
@@ -757,6 +762,7 @@ void recordSearchCommon(TreatmentSystem* sys, int type, WARD* wardlist, Fund_Sys
                         printf("Please enter the modify time\n");
                         Date time = Date_Input();
                         UpdateAllBedsQueue(wardlist, time);
+                        Date_Check(&New_Date, time);
                         printf("Modify successfully\n");
                     }
                 }

@@ -66,14 +66,42 @@ void AddNurseToWard(ward* w) {
 	w->nursenum++;//护士总数增加
 	printf("Nurse %s added successfully.\n", nid);
 }
+void AddNurseToWard1(ward* w,char *str) {
+	if (get_Nurse_id(str) == NULL) {
+		printf("Nurse not found!\n");
+		return;
+	}
 
+	NurseIDNode* cur = w->nurselist;
+	while (cur) {
+		if (strcmp(cur->nurseid, str) == 0) {
+			printf("Nurse already assigned to this ward!\n");
+			return;
+		}
+		cur = cur->next;
+	}
+
+	NurseIDNode* node = (NurseIDNode*)malloc(sizeof(NurseIDNode));
+	if (!node) {
+		printf("Memory allocation failed!\n");
+		return;
+	}
+	strcpy(node->nurseid, str);
+	node->next = w->nurselist;
+	w->nurselist = node;
+	w->nursenum++;//护士总数增加
+	printf("Nurse %s added successfully.\n", str);
+}
 void RemoveNurseFromWard(ward* w) {//利用二级指针无需判断头节点
 	char nid[20];
 	printf("Enter nurse ID to remove: ");
 	fgets(nid, 20, stdin);
 	nid[strcspn(nid, "\n")] = '\0';
 	if (strlen(nid) == 0) return;
-
+	if (get_Nurse_id(nid) == NULL) {
+		printf("Nurse not found!\n");
+		return;
+	}
 	NurseIDNode** cur = &w->nurselist;
 	while (*cur) {
 		if (strcmp((*cur)->nurseid, nid) == 0) {
@@ -87,6 +115,27 @@ void RemoveNurseFromWard(ward* w) {//利用二级指针无需判断头节点
 		cur = &(*cur)->next;
 	}
 	
+	printf("Nurse not found in this ward!\n");
+}
+void RemoveNurseFromWard1(ward* w,char *str) {//利用二级指针无需判断头节点
+	
+	if (get_Nurse_id(str) == NULL) {
+		printf("Nurse not found!\n");
+		return;
+	}
+	NurseIDNode** cur = &w->nurselist;
+	while (*cur) {
+		if (strcmp((*cur)->nurseid, str) == 0) {
+			NurseIDNode* tmp = *cur;
+			*cur = (*cur)->next;
+			free(tmp);
+			w->nursenum--;//护士总数减少1
+			printf("Nurse %s removed successfully.\n", str);
+			return;
+		}
+		cur = &(*cur)->next;
+	}
+
 	printf("Nurse not found in this ward!\n");
 }
 

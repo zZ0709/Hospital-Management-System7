@@ -111,7 +111,11 @@ int NurseCount(NurseIDNode* head);
 void PrintNurseList(ward* a);
 void FreeNurseList(NurseIDNode* head);
 void AddNurseToWard(ward* w);
+void AddNurseToWard1(ward* w,char *str);
 void RemoveNurseFromWard(ward* w);
+void RemoveNurseFromWard1(ward* w,char *str);
+
+
 
 
 

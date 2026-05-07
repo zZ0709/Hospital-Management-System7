@@ -222,7 +222,7 @@ void add_patientlist() {
 					return;
 			}
 			else {
-				peintf("Department selection successful.\n");
+				printf("Department selection successful.\n");
 				chance = 0;
 			}
 		}while (chance == 1);
@@ -247,7 +247,7 @@ void add_patientlist() {
 
 		get_alpha_string("Please enter medical history:\n", p->medical_history, maxhistory);
 		department = get_int_range("Please enter the department:/n", 1, 6);
-		peintf("Department selection successful.\n");
+		printf("Department selection successful.\n");
 	}
 
 	query_doctor_by_dept(department);//#####能不能只打印可以挂号的医生

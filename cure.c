@@ -111,7 +111,7 @@ void add_record(TreatmentSystem* sys,WARD *wardlist){
    // ======================
    DoctorNode* doc;
    while (1) {
-       doc = Doctor_id(); //检索医生信息函数，利用唯一的编号查找节点
+       doc = Find_Doctor_id(); //检索医生信息函数，利用唯一的编号查找节点
        if (doc == NULL) {
            continue;
        }
@@ -125,7 +125,8 @@ void add_record(TreatmentSystem* sys,WARD *wardlist){
    new_node->create_time = reg_time;   // 设置创建时间
    Date k = dateturn(new_node->create_time);
    UpdateAllBedsQueue(wardlist, k);//对床队列状态进行更新
-    // 初始化诊疗流程
+   Date_Check(&New_Date, k);
+   // 初始化诊疗流程
     new_node->process_stage = 1;      // 初始阶段为1（挂号/看诊）
     strcpy(new_node->exam_items, "unchecked");     // 初始化检查项目
     strcpy(new_node->treatment_items, "untreated"); // 初始化治疗项目
@@ -163,6 +164,7 @@ void searchRecordprintf(TreatmentSystem * sys, WARD * wardlist,Fund_System *Acco
     printf("Please enter current system date to update bed status\n");
     Date time = Date_Input();//输入查找时间
     UpdateAllBedsQueue(wardlist, time);//对床队列状态进行更新 
+    Date_Check(&New_Date, time);
     recordSearchCommon(sys, 1, wardlist,Account);
     system("pause");
     system("cls");
@@ -589,6 +591,7 @@ void printallrecordnode(TreatmentSystem* sys,WARD *wardlist) {
       printf("Please enter the modify time\n");
       Date time = Date_Input();
       UpdateAllBedsQueue(wardlist, time);
+      Date_Check(&New_Date, time);
       printf("Modify successfully\n");
       system("pause");
       system("cls");
